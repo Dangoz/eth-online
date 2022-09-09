@@ -19,12 +19,13 @@ a {
   html {
     color-scheme: dark;
   }
+
   body {
     color: white;
-    background-color: black;
+    background: black;
   }
 }
-
-@tailwind base;
+/* tailwind base is in conflict with and already inclueded in next-ui */
+/* @tailwind base; */
 @tailwind components;
 @tailwind utilities;

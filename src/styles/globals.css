@@ -25,6 +25,7 @@ a {
     background: black;
   }
 }
+
 /* tailwind base is in conflict with and already inclueded in next-ui */
 /* @tailwind base; */
 @tailwind components;

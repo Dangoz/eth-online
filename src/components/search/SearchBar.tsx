@@ -32,26 +32,22 @@ const SearchBar: React.FC = () => {
           onFocus={() => setIsInputFocused(true)}
         />
 
-        {searchText && isInputFocused ? (
+        {searchText && isInputFocused && (
           <div
             className="bg-transparent border-none cursor-pointer hover:bg-slate-300/10 rounded-[20px] p-2 text-slate-300"
             onClick={() => setSearchText('')}
           >
             Clear
           </div>
-        ) : (
-          <div className="w-[50px]" />
         )}
 
-        {isInputFocused ? (
+        {isInputFocused && (
           <div className="flex justify-center items-center">
             <XMarkIcon
               className="h-[20px] w-[20px] text-textGrey text-slate-400 cursor-pointer mr-[10px]"
               onClick={handleClose}
             />
           </div>
-        ) : (
-          <div className=" h-[20px] w-[20px] mr-[10px]" />
         )}
       </div>
 

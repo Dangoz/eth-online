@@ -1,0 +1,9 @@
+
+.blur {
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+}
+.blurTransition {
+  transition: background-color 0.5s cubic-bezier(0.28, 0.11, 0.32, 1);
+  transition-property: background-color, backdrop-filter, -webkit-backdrop-filter;
+}

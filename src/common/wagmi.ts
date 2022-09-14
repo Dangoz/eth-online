@@ -7,7 +7,7 @@ import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 export const { chains, provider } = configureChains(
   [
     chain.polygonMumbai,
-    // chain.mainnet,
+    chain.mainnet,
     // chain.polygon
   ],
   [
@@ -22,7 +22,7 @@ export const { chains, provider } = configureChains(
 )
 
 export const { connectors } = getDefaultWallets({
-  appName: 'My RainbowKit App',
+  appName: 'CinePlanet',
   chains,
 })
 

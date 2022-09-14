@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import { XCircleIcon } from '@heroicons/react/20/solid'
-import { Button } from '@nextui-org/react'
+import { Modal } from '@nextui-org/react'
 
 const SearchBar: React.FC = () => {
   const [searchText, setSearchText] = useState('')
@@ -11,17 +11,20 @@ const SearchBar: React.FC = () => {
     <>
       <div
         className="h-[44px] w-[300px] bg-bgGrey rounded-[12px] flex items-center justify-between  
-       cursor-text"
+       cursor-text z-50"
         placeholder="Search"
       >
         <MagnifyingGlassIcon className="h-[22px] w-[22px] text-textGrey ml-[16px]" />
         <input
-          className="h-[40px] w-[160px] bg-transparent border-none"
+          className="h-[40px] bg-transparent border-none w-[160px]"
           placeholder="Search..."
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           onFocus={() => setIsInputFocused(true)}
-          onBlur={() => setIsInputFocused(false)}
+          onBlur={() => {
+            setSearchText('')
+            setIsInputFocused(false)
+          }}
         />
 
         {searchText ? (
@@ -44,6 +47,11 @@ const SearchBar: React.FC = () => {
           <div className=" h-[20px] w-[20px] mr-[10px]" />
         )}
       </div>
+
+      {/* modal background */}
+      {isInputFocused && (
+        <div className="z-40 fixed top-0 left-0 w-full h-full bg-black/50 transition-opacity duration-300"></div>
+      )}
     </>
   )
 }

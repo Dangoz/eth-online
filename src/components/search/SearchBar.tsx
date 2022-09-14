@@ -19,9 +19,12 @@ const SearchBar: React.FC = () => {
        cursor-text z-50"
         placeholder="Search"
       >
-        <MagnifyingGlassIcon className="h-[22px] w-[22px] text-textGrey ml-[10px]" />
+        <div className="flex justify-center items-center">
+          <MagnifyingGlassIcon className="h-[22px] w-[22px] text-textGrey ml-[10px]" />
+        </div>
+
         <input
-          className="h-[40px] bg-transparent border-none w-[160px]"
+          className="h-[40px] bg-transparent border-none w-[100%] px-2"
           placeholder="Search..."
           autoFocus
           value={searchText}
@@ -41,10 +44,12 @@ const SearchBar: React.FC = () => {
         )}
 
         {isInputFocused ? (
-          <XMarkIcon
-            className="h-[20px] w-[20px] text-textGrey text-slate-400 cursor-pointer mr-[10px]"
-            onClick={handleClose}
-          />
+          <div className="flex justify-center items-center">
+            <XMarkIcon
+              className="h-[20px] w-[20px] text-textGrey text-slate-400 cursor-pointer mr-[10px]"
+              onClick={handleClose}
+            />
+          </div>
         ) : (
           <div className=" h-[20px] w-[20px] mr-[10px]" />
         )}

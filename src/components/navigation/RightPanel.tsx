@@ -2,6 +2,7 @@ import { Button } from '@nextui-org/react'
 import { useConnectModal, useAccountModal, useChainModal, ConnectButton } from '@rainbow-me/rainbowkit'
 import useAddress from '@/hooks/useAddress'
 import { useEnsName, useEnsAvatar, chain } from 'wagmi'
+import SearchBar from '../search/SearchBar'
 
 const RightPanel: React.FC = () => {
   const { openConnectModal } = useConnectModal()
@@ -29,19 +30,23 @@ const RightPanel: React.FC = () => {
   return (
     <>
       <div className="flex justify-end items-center gap-5">
-        {!isConnected ? (
-          <Button
-            color={'gradient'}
-            shadow={true}
-            size="xs"
-            onClick={openConnectModal}
-            className={`bg-gradient-to-r from-gradientOne via-gradientTwo to-gradientThree h-[44px] w-[99px] text-[16px] text-[black] z-10`}
-          >
-            Connect
-          </Button>
-        ) : (
-          <ConnectButton />
-        )}
+        <SearchBar />
+
+        <div className="flex justify-center items-center gap-5 w-[220px]">
+          {!isConnected ? (
+            <Button
+              color={'gradient'}
+              shadow={true}
+              size="xs"
+              onClick={openConnectModal}
+              className={`bg-gradient-to-r from-gradientOne via-gradientTwo to-gradientThree h-[44px] w-[99px] text-[16px] text-[black] z-10`}
+            >
+              Connect
+            </Button>
+          ) : (
+            <ConnectButton />
+          )}
+        </div>
       </div>
     </>
   )

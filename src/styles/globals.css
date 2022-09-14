@@ -19,11 +19,6 @@ a {
   html {
     color-scheme: dark;
   }
-
-  body {
-    color: white;
-    background: black;
-  }
 }
 
 /* tailwind base is in conflict with and already inclueded in next-ui */

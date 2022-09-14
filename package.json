@@ -1,5 +1,5 @@
 {
-  "name": "eth-online",
+  "name": "cine-planet",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -19,11 +19,13 @@
     "@urql/core": "^3.0.3",
     "@walletconnect/web3-provider": "^1.8.0",
     "axios": "^0.27.2",
+    "dayjs": "^1.11.5",
     "ethers": "^5.7.0",
     "graphql": "^16.6.0",
     "next": "12.3.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-toastify": "^9.0.8",
     "wagmi": "^0.6.5"
   },
   "devDependencies": {

@@ -1,5 +1,5 @@
 import { useAccount } from 'wagmi'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 interface Address {
   address: string

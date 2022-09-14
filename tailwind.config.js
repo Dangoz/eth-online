@@ -8,4 +8,5 @@ module.exports = {
     require('@tailwindcss/aspect-ratio'),
     require('@tailwindcss/line-clamp'),
   ],
+  // darkMode: 'class',
 }

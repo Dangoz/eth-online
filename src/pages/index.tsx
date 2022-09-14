@@ -10,7 +10,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Menu />
-      <div></div>
+      <div>waa</div>
     </>
   )
 }

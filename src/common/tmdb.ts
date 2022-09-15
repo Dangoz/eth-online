@@ -19,14 +19,20 @@ const tmdbAPI = axios.create({
 
 // tmdb api calls
 const tmdb = {
-  // get videos based on text search query
-  getVideosByQuery: async (query: string) => {
-    const { data } = await tmdbAPI.get('/search/movie', {
+  // query both movies and tv shows by search text
+  search: async (query: string) => {
+    const res = await tmdbAPI.get(`/search/multi`, {
       params: {
         query,
       },
     })
-    return data
+    return res.data
+  },
+
+  // get movie details by id
+  getMovie: async (id: number) => {
+    const res = await tmdbAPI.get(`/movie/${id}`)
+    return res.data
   },
 }
 

@@ -18,13 +18,19 @@ const menuOptions: MenuOptionProps[] = [
       Router.push('/explore')
     },
   },
+  // {
+  //   title: 'Leaderboard',
+  //   onClick: () => {
+  //     Router.push('/explore')
+  //   },
+  // }
 ]
 
 const Menu: React.FC = () => {
   return (
     <div className="flex justify-start items-center gap-8">
       <Link href={'/'} passHref>
-        <>
+        <div className="flex justify-center items-center">
           <Image
             width={200}
             height={45}
@@ -34,7 +40,7 @@ const Menu: React.FC = () => {
             placeholder="blur"
             blurDataURL={blurURL}
           />
-        </>
+        </div>
       </Link>
 
       <div className="flex items-center justify-start gap-3">

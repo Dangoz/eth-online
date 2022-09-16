@@ -12,7 +12,9 @@ module.exports = {
         gradientTwo: '#7DD3FC',
         gradientThree: '#C084FC',
         bgBlue: '#111827',
-        bgGrey: '#374151'
+        bgGrey: '#374151',
+        titlePurple: 'rgba(192, 132, 252, 0.5)',
+        dividerGrey: '#323855',
       }
     },
   },

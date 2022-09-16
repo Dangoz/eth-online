@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { handleError } from './notification'
+import type { TmdbShow } from '@/types/tmdb'
 
 // tmdb image path prefix
 export const tmdbImagePrefix300 = 'https://image.tmdb.org/t/p/w300'
@@ -20,19 +22,30 @@ const tmdbAPI = axios.create({
 // tmdb api calls
 const tmdb = {
   // query both movies and tv shows by search text
-  search: async (query: string) => {
-    const res = await tmdbAPI.get(`/search/multi`, {
-      params: {
-        query,
-      },
-    })
-    return res.data
+  search: async (query: string, page: number = 1): Promise<TmdbShow[]> => {
+    try {
+      const res = await tmdbAPI.get(`/search/multi`, {
+        params: {
+          query,
+          page,
+        },
+      })!
+      return res.data.results as TmdbShow[]
+    } catch (err) {
+      handleError(err as Error)
+      return []
+    }
   },
 
-  // get movie details by id
-  getMovie: async (id: number) => {
-    const res = await tmdbAPI.get(`/movie/${id}`)
-    return res.data
+  // get movie or tv show details by id
+  getDetails: async (id: number, type: 'movie' | 'tv') => {
+    try {
+      const res = await tmdbAPI.get(`/${type}/${id}`)
+      return res.data
+    } catch (err) {
+      handleError(err as Error)
+      return []
+    }
   },
 }
 

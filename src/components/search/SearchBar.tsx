@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
-import { XCircleIcon } from '@heroicons/react/20/solid'
+import SearchResult from './SearchResult'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 
 const SearchBar: React.FC = () => {
@@ -55,10 +55,14 @@ const SearchBar: React.FC = () => {
 
       {/* modal background */}
       {isInputFocused && (
-        <div
-          className="z-40 fixed top-0 left-0 w-full h-full bg-black/50 transition-opacity duration-300"
-          onClick={() => setIsInputFocused(false)}
-        />
+        <>
+          <div
+            className="z-40 fixed top-0 left-0 w-full h-full bg-black/50 transition-opacity duration-300"
+            onClick={() => setIsInputFocused(false)}
+          />
+          {/* <SearchResult searchText={searchText}/> */}
+          {searchText.trim().length > 0 && <SearchResult searchText={searchText} />}
+        </>
       )}
     </>
   )

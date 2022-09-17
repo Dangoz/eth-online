@@ -1,23 +1,45 @@
-import Router from 'next/router'
 import tmdb from '@/common/tmdb'
-import CustomStyle from '@/styles/custom.module.css'
-import { Loading, Spacer } from '@nextui-org/react'
 import { useState, useCallback, useEffect } from 'react'
 import SearchShowCard from './SearchShowCard'
+import SearchProfileCard from './SearchProfileCard'
 import SearchLoading from './SearchLoading'
 import SearchEmpty from './SearchEmpty'
 import useDebounce from '@/hooks/useDebounce'
 import { TmdbShow } from '@/types/tmdb'
+import { useQuery } from 'urql'
+import { SEARCH_PROFILE_QUERY } from '@/common/lens/profile'
+import { handleError } from '@/common/notification'
 
 interface SearchProps {
   searchText: string
 }
 
 const SearchResult: React.FC<SearchProps> = ({ searchText }) => {
-  const [shows, setShows] = useState<TmdbShow[]>([])
-  const [isShowsLoading, setIsShowsLoading] = useState<boolean>(searchText.trim().length !== 0)
+  const [query, setQuery] = useState(searchText)
 
-  const getShows = useDebounce(async (query: string) => {
+  const [shows, setShows] = useState<TmdbShow[]>([])
+  const [isShowsLoading, setIsShowsLoading] = useState<boolean>(query.trim().length !== 0)
+
+  const [profiles, setProfiles] = useState<any[]>([])
+  const [profilesResult] = useQuery({
+    query: SEARCH_PROFILE_QUERY,
+    variables: {
+      query,
+      limit: 5,
+    },
+  })
+
+  // debounce query by 500ms
+  const debouncedQuery = useDebounce(async (searchText: string) => {
+    setQuery(searchText)
+  }, 500)
+
+  useEffect(() => {
+    debouncedQuery(searchText)
+  }, [searchText, debouncedQuery])
+
+  // get shows based on query
+  const getShows = useCallback(async () => {
     if (query.trim().length === 0) {
       return setShows([])
     }
@@ -27,11 +49,22 @@ const SearchResult: React.FC<SearchProps> = ({ searchText }) => {
     const shows = results.filter((show) => show.media_type === 'movie' || show.media_type === 'tv')
     setShows(shows.slice(0, 5))
     setIsShowsLoading(false)
-  }, 500)
+  }, [query])
 
   useEffect(() => {
-    getShows(searchText)
-  }, [searchText, getShows])
+    getShows()
+  }, [query, getShows])
+
+  // set profiles on search
+  useEffect(() => {
+    if (profilesResult.error) {
+      return handleError(profilesResult.error)
+    }
+    if (profilesResult.fetching) {
+      return
+    }
+    setProfiles(profilesResult.data.search.items)
+  }, [profilesResult])
 
   return (
     <>
@@ -48,6 +81,16 @@ const SearchResult: React.FC<SearchProps> = ({ searchText }) => {
           <SearchEmpty />
         ) : (
           shows.map((show, index) => <SearchShowCard key={index} show={show} />)
+        )}
+
+        {/* profiles */}
+        <div className="text-titlePurple font-bold mt-4">PROFILES</div>
+        {profilesResult.fetching ? (
+          <SearchLoading />
+        ) : profiles.length === 0 ? (
+          <SearchEmpty />
+        ) : (
+          profiles.map((profile, index) => <SearchProfileCard key={index} profile={profile} />)
         )}
       </div>
     </>

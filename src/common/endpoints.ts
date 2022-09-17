@@ -3,5 +3,6 @@
 // tmdb v3 api url
 export const TMDB_API_URL = 'https://api.themoviedb.org/3'
 
-// Lens on mumbai testnet
-export const LENS_API_URL = 'https://api-mumbai.lens.dev/'
+// Lens api url
+export const LENS_TESTNET_API_URL = 'https://api-mumbai.lens.dev/'
+export const LENS_API_URL = 'https://api.lens.dev/'

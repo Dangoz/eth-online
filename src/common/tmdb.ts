@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { handleError } from './notification'
-import type { TmdbShow } from '@/types/tmdb'
+import type { TmdbShow, MediaType } from '@/types/tmdb'
 import { TMDB_API_URL } from './endpoints'
 
 // tmdb image path prefix
@@ -39,7 +39,7 @@ const tmdb = {
   },
 
   // get movie or tv show details by id
-  getDetails: async (id: number, type: 'movie' | 'tv') => {
+  getDetails: async (id: number, type: MediaType) => {
     try {
       const res = await tmdbAPI.get(`/${type}/${id}`)
       return res.data

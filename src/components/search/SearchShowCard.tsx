@@ -10,7 +10,7 @@ const SearchShowCard: React.FC<{ show: TmdbShow }> = ({ show }) => {
       : tmdbImagePrefixWide + (show.poster_path || show.backdrop_path)
 
   return (
-    <>
+    <div>
       <div className="w-full flex items-center justify-start p-1 gap-2 cursor-pointer hover:bg-bgGrey">
         <div>
           <Image
@@ -31,7 +31,7 @@ const SearchShowCard: React.FC<{ show: TmdbShow }> = ({ show }) => {
         </div>
       </div>
       <div className="w-[100%] h-[1px] bg-dividerGrey" />
-    </>
+    </div>
   )
 }
 

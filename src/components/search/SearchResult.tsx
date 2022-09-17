@@ -9,6 +9,7 @@ import { TmdbShow } from '@/types/tmdb'
 import { useQuery } from 'urql'
 import { SEARCH_PROFILE_QUERY } from '@/common/lens/profile'
 import { handleError } from '@/common/notification'
+import { LensSearchProfile } from '@/types/lens'
 
 interface SearchProps {
   searchText: string
@@ -20,7 +21,7 @@ const SearchResult: React.FC<SearchProps> = ({ searchText }) => {
   const [shows, setShows] = useState<TmdbShow[]>([])
   const [isShowsLoading, setIsShowsLoading] = useState<boolean>(query.trim().length !== 0)
 
-  const [profiles, setProfiles] = useState<any[]>([])
+  const [profiles, setProfiles] = useState<LensSearchProfile[]>([])
   const [profilesResult] = useQuery({
     query: SEARCH_PROFILE_QUERY,
     variables: {

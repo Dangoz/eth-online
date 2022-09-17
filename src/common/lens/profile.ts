@@ -23,7 +23,6 @@ export const SEARCH_PROFILE_QUERY = gql`
             id
             handle
             name
-            metadata
             ownedBy
             picture {
               ...ProfileMediaFields

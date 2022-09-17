@@ -19,16 +19,16 @@ const GradientWrapper = ({
   borderWidth = 5,
   className,
   children,
-  hover = true,
+  hover = false,
 }: GradientWrapperProps) => {
   return (
     <div
-      className={`${className} flex justify-center items-center bg-gradient-to-r from-purple-400 to-pink-600`}
+      className={`${className} flex justify-center items-center bg-gradient-to-r from-gradientOne via-gradientTwo to-gradientThree`}
       style={{ width: `${width}px`, height: `${height}px`, borderRadius: `${borderRaidus}px` }}
     >
       <div
         className={`${className} flex items-center bg-white transition-all duration-1000 ${
-          hover ? 'hover:bg-gradient-to-r from-purple-400 to-pink-600' : ''
+          hover ? 'hover:bg-gradient-to-r from-gradientOne via-gradientTwo to-gradientThree' : ''
         }`}
         style={{
           width: `${width - borderWidth}px`,

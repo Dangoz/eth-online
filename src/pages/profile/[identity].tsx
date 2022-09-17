@@ -1,9 +1,10 @@
 import type { NextPage } from 'next'
+import ProfileContainer from '@/components/profile/ProfileContainer'
 
-const Profile: NextPage = () => {
+const Profile: NextPage<{ count: number }> = ({ count }) => {
   return (
     <>
-      <div>Profile</div>
+      <ProfileContainer />
     </>
   )
 }

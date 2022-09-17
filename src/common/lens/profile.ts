@@ -39,3 +39,50 @@ export const SEARCH_PROFILE_QUERY = gql`
   }
   ${ProfileMediaFields}
 `
+
+export const GET_PROFILE_QUERY = gql`
+  query Profile($profileId: ProfileId! = "0x01") {
+    profile(request: { profileId: $profileId }) {
+      id
+      name
+      bio
+      followNftAddress
+      picture {
+        ... on NftImage {
+          contractAddress
+          tokenId
+          uri
+          verified
+        }
+        ... on MediaSet {
+          original {
+            url
+            mimeType
+          }
+        }
+        __typename
+      }
+      handle
+      coverPicture {
+        ... on NftImage {
+          contractAddress
+          tokenId
+          uri
+          verified
+        }
+        ... on MediaSet {
+          original {
+            url
+            mimeType
+          }
+        }
+        __typename
+      }
+      ownedBy
+      stats {
+        totalFollowers
+        totalFollowing
+      }
+    }
+  }
+`

@@ -74,7 +74,6 @@ const SearchResult: React.FC<SearchProps> = ({ searchText }) => {
       >
         {/* shows */}
         <div className="text-titlePurple font-bold">SHOWS</div>
-
         {isShowsLoading ? (
           <SearchLoading />
         ) : shows.length === 0 ? (

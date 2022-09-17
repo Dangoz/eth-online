@@ -2,8 +2,9 @@ import { LensSearchProfile } from '@/types/lens'
 import { Image } from '@nextui-org/react'
 import { parseIpfs } from '@/common/ipfs'
 import GradientText from '../ui/GradientText'
-import GradientWrapper from '../ui/GradientWrapper'
 import { useEnsName } from 'wagmi'
+import Router from 'next/router'
+import { useCallback } from 'react'
 
 const SearchProfileCard: React.FC<{ profile: LensSearchProfile }> = ({ profile }) => {
   const thumbnailURL = !profile.picture
@@ -16,8 +17,15 @@ const SearchProfileCard: React.FC<{ profile: LensSearchProfile }> = ({ profile }
     chainId: 1,
   })
 
+  const handleProfileClick = useCallback(() => {
+    Router.push(`/profile/${profile.id}`)
+
+    // on router push, close modal by clicking background
+    document.getElementById('input-modal-background')?.click()
+  }, [profile])
+
   return (
-    <div>
+    <div onClick={() => handleProfileClick()}>
       <div className="w-full flex items-center justify-start p-2 gap-5 cursor-pointer hover:bg-bgGrey">
         <div className="flex justify-center items-center">
           <Image
@@ -32,13 +40,13 @@ const SearchProfileCard: React.FC<{ profile: LensSearchProfile }> = ({ profile }
 
         <div className="flex flex-col justify-center">
           <div className="font-bold">{profile.name || ensName || profile.handle}</div>
-          {/* <div className="gap-2 flex">
+          <div className="gap-2 flex">
             {ensName && <GradientText text={`@${ensName}`} />}
             <GradientText text={`@${profile.handle}`} />
-          </div> */}
+          </div>
 
-          {ensName && <GradientText text={`@${ensName}`} />}
-          {!ensName && <GradientText text={`@${profile.handle}`} />}
+          {/* {ensName && <GradientText text={`@${ensName}`} />} */}
+          {/* {!ensName && <GradientText text={`@${profile.handle}`} />} */}
         </div>
       </div>
       <div className="w-[100%] h-[1px] bg-dividerGrey" />

@@ -1,7 +1,8 @@
 import type { TmdbShow } from '@/types/tmdb'
 import { tmdbImagePrefixWide } from '@/common/tmdb'
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Image } from '@nextui-org/react'
+import Router from 'next/router'
 
 const SearchShowCard: React.FC<{ show: TmdbShow }> = ({ show }) => {
   const thumbnailURL =
@@ -9,18 +10,18 @@ const SearchShowCard: React.FC<{ show: TmdbShow }> = ({ show }) => {
       ? '/logo.svg'
       : tmdbImagePrefixWide + (show.poster_path || show.backdrop_path)
 
+  const handleShowClick = useCallback(() => {
+    Router.push(`/show/${show.id}`)
+
+    // on router push, close modal by clicking background
+    document.getElementById('input-modal-background')?.click()
+  }, [show])
+
   return (
-    <div>
+    <div onClick={handleShowClick}>
       <div className="w-full flex items-center justify-start p-1 gap-2 cursor-pointer hover:bg-bgGrey">
         <div>
-          <Image
-            width={40}
-            height={60}
-            src={thumbnailURL}
-            alt="Default Image"
-            className="cursor-pointer"
-            placeholder="blur"
-          />
+          <Image width={40} height={60} src={thumbnailURL} alt="Default Image" placeholder="blur" />
         </div>
         <div>
           <div>

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { handleError } from './notification'
 import type { TmdbShow } from '@/types/tmdb'
+import { TMDB_API_URL } from './endpoints'
 
 // tmdb image path prefix
 export const tmdbImagePrefix300 = 'https://image.tmdb.org/t/p/w300'
@@ -10,7 +11,7 @@ export const tmdbImagePrefixWide = 'https://image.tmdb.org/t/p/w1280'
 
 // create axios object for tmdb
 const tmdbAPI = axios.create({
-  baseURL: 'https://api.themoviedb.org/3',
+  baseURL: TMDB_API_URL,
   headers: {
     'Content-Type': 'application/json',
   },

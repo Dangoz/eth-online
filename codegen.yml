@@ -1,0 +1,7 @@
+overwrite: true
+schema: "https://api-mumbai.lens.dev/"
+
+generates:
+  src/types/generated/types.ts:
+    plugins:
+      - "typescript"

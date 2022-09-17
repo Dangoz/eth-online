@@ -15,8 +15,8 @@ const Navbar: React.FC = () => {
   return (
     <>
       <div
-        className={`fixed w-[100%] h-[64px] p-4 top-0 flex justify-between items-center   
-        ${!isTop && `bg-[rgba(29,29,31,0.7)] ${CustomStyle.blurs} `} ${CustomStyle.blurTransition}`}
+        className={`z-50 w-[100%] h-[64px] p-4 top-0 flex justify-between items-center   
+        ${!isTop ? `bg-[rgba(29,29,31,0.7)] ${CustomStyle.blurs} sticky` : `absolute`} ${CustomStyle.blurTransition}`}
       >
         <Menu />
         <RightPanel />

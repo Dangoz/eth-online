@@ -8,6 +8,8 @@ export const tmdbImagePrefix300 = 'https://image.tmdb.org/t/p/w300'
 export const tmdbImagePrefix500 = 'https://image.tmdb.org/t/p/w500'
 export const tmdbImagePrefix780 = 'https://image.tmdb.org/t/p/w780'
 export const tmdbImagePrefixWide = 'https://image.tmdb.org/t/p/w1280'
+export const tmdbImagePrefixFull = 'https://image.tmdb.org/t/p/w1920_and_h800_multi_faces'
+export const tmdbImagePrefixOriginal = 'https://image.tmdb.org/t/p/original'
 
 // create axios object for tmdb
 const tmdbAPI = axios.create({
@@ -45,7 +47,7 @@ const tmdb = {
       const media = res.data as Media
       return { media, error: null }
     } catch (err) {
-      console.error(err as Error)
+      console.error((err as Error).message)
       return { media: null, error: err as Error }
     }
   },

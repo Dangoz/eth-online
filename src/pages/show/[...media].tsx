@@ -1,10 +1,12 @@
 import type { NextPage, GetServerSideProps } from 'next'
 import ShowContainer from '@/components/show/ShowContainer'
+import type { Media } from '@/types/tmdb'
+import tmdb from '@/common/tmdb'
 
-const Show: NextPage = () => {
+const Show: NextPage<{ media: Media }> = ({ media }) => {
   return (
     <>
-      <ShowContainer />
+      <ShowContainer media={media} />
     </>
   )
 }
@@ -19,7 +21,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }
 
+  const { media, error } = await tmdb.getDetails(+pathArray[1], pathArray[0])
+  if (error !== null) {
+    return {
+      notFound: true,
+    }
+  }
+
   return {
-    props: {},
+    props: {
+      media,
+    },
   }
 }

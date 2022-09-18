@@ -38,14 +38,15 @@ const tmdb = {
     }
   },
 
-  // get movie or tv show details by id
-  getDetails: async (id: number, type: MediaType): Promise<Media> => {
+  // get movie or tv show details by id (fetched server-side)
+  getDetails: async (id: number, type: MediaType): Promise<{ media: Media | null; error: Error | null }> => {
     try {
       const res = await tmdbAPI.get(`/${type}/${id}`)
-      return res.data as Media
+      const media = res.data as Media
+      return { media, error: null }
     } catch (err) {
-      handleError(err as Error)
-      return {}
+      console.error(err as Error)
+      return { media: null, error: err as Error }
     }
   },
 }

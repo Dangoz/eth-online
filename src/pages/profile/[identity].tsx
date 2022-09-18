@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import ProfileContainer from '@/components/profile/ProfileContainer'
 
-const Profile: NextPage<{ count: number }> = ({ count }) => {
+const Profile: NextPage = () => {
   return (
     <>
       <ProfileContainer />

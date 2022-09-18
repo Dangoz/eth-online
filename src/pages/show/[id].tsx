@@ -1,12 +1,10 @@
 import type { NextPage } from 'next'
-import React from 'react'
+import ShowContainer from '@/components/show/ShowContainer'
 
 const Show: NextPage = () => {
   return (
     <>
-      <React.Suspense fallback={<div>Loading...</div>}>
-        <div>Show</div>
-      </React.Suspense>
+      <ShowContainer />
     </>
   )
 }

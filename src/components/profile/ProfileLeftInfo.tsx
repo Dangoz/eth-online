@@ -27,7 +27,7 @@ const ProfileLeftInfo: React.FC<ProfileLeftInfoProps> = ({ profile, avatar }) =>
           <img
             alt="Avatar"
             src={parseIpfs(avatar)}
-            className={`h-[200px] w-[200px] rounded-[5px] object-cover bg-white hover:h-[210px] hover:w-[210px] hover:rounded-[10px] transition-all duration-300`}
+            className={`h-[200px] w-[200px] rounded-[5px] object-cover bg-bgBlue hover:h-[210px] hover:w-[210px] hover:rounded-[10px] transition-all duration-300`}
           />
         </div>
 

@@ -26,7 +26,10 @@ const SearchProfileCard: React.FC<{ profile: LensSearchProfile }> = ({ profile }
 
   return (
     <div onClick={() => handleProfileClick()}>
-      <div className="w-full flex items-center justify-start p-2 gap-5 cursor-pointer hover:bg-bgGrey">
+      <div
+        className={`w-full flex items-center justify-start p-2 gap-5 
+       cursor-pointer hover:bg-bgGrey overflow-x-scroll`}
+      >
         <div className="flex justify-center items-center">
           <Image
             width={40}

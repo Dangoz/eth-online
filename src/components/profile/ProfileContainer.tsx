@@ -38,7 +38,7 @@ const ProfileContainer: React.FC = () => {
     }
 
     const avatar = !profile.picture
-      ? '/avatar.svg'
+      ? '/logo.svg'
       : (profile.picture.__typename === 'MediaSet' && profile.picture.original.url) ||
         (profile.picture.__typename === 'NftImage' && profile.picture.uri)
     setAvatar(avatar)

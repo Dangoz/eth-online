@@ -39,7 +39,7 @@ const tmdb = {
   },
 
   // get movie or tv show details by id (fetched server-side)
-  getDetails: async (id: number, type: MediaType): Promise<{ media: Media | null; error: Error | null }> => {
+  getDetails: async (id: number, type: MediaType): Promise<Detail> => {
     try {
       const res = await tmdbAPI.get(`/${type}/${id}`)
       const media = res.data as Media
@@ -52,3 +52,13 @@ const tmdb = {
 }
 
 export default tmdb
+
+type Detail =
+  | {
+      media: Media
+      error: null
+    }
+  | {
+      media: null
+      error: Error
+    }

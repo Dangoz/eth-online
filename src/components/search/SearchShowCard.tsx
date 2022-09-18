@@ -11,7 +11,7 @@ const SearchShowCard: React.FC<{ show: TmdbShow }> = ({ show }) => {
       : tmdbImagePrefixWide + (show.poster_path || show.backdrop_path)
 
   const handleShowClick = useCallback(() => {
-    Router.push(`/show/${show.id}`)
+    Router.push(`/show/${show.media_type}/${show.id}`)
 
     // on router push, close modal by clicking background
     document.getElementById('input-modal-background')?.click()

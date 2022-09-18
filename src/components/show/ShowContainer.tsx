@@ -1,7 +1,10 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 const ShowContainer: React.FC = () => {
-  return <div>ShowContainer</div>
+  const router = useRouter()
+
+  return <></>
 }
 
 export default ShowContainer

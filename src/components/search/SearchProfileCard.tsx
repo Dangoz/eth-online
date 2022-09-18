@@ -35,6 +35,7 @@ const SearchProfileCard: React.FC<{ profile: LensSearchProfile }> = ({ profile }
             alt="Default Image"
             objectFit="cover"
             className="rounded-full"
+            placeholder="blur"
           />
         </div>
 

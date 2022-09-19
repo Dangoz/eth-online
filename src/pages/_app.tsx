@@ -9,6 +9,7 @@ import { WagmiConfig } from 'wagmi'
 import { wagmiClient, chains } from '@/common/wagmi'
 import Navbar from '@/components/navigation/Navbar'
 import { Provider as UrqlProvider } from 'urql'
+import { UserContextProvider } from '@/store/userContext'
 import LensUrqlClient from '@/common/lens/client'
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -16,17 +17,19 @@ function MyApp({ Component, pageProps }: AppProps) {
     type: 'dark',
   })
   return (
-    <UrqlProvider value={LensUrqlClient}>
-      <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider chains={chains} theme={darkTheme()}>
-          <NextUIProvider theme={theme}>
-            <Navbar />
-            <Component {...pageProps} />
-            <ToastContainer />
-          </NextUIProvider>
-        </RainbowKitProvider>
-      </WagmiConfig>
-    </UrqlProvider>
+    <UserContextProvider>
+      <UrqlProvider value={LensUrqlClient}>
+        <WagmiConfig client={wagmiClient}>
+          <RainbowKitProvider chains={chains} theme={darkTheme()}>
+            <NextUIProvider theme={theme}>
+              <Navbar />
+              <Component {...pageProps} />
+              <ToastContainer />
+            </NextUIProvider>
+          </RainbowKitProvider>
+        </WagmiConfig>
+      </UrqlProvider>
+    </UserContextProvider>
   )
 }
 

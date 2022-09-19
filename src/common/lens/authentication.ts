@@ -6,6 +6,7 @@ import type {
   SignedAuthChallenge,
   AuthenticationResult,
   RefreshRequest,
+  VerifyRequest,
 } from '@/types/generated/types'
 
 // access token & refresh token enum
@@ -37,6 +38,12 @@ const REFRESH_AUTHENTICATION = gql`
       accessToken
       refreshToken
     }
+  }
+`
+
+const VERIFY = gql`
+  query ($request: VerifyRequest!) {
+    verify(request: $request)
   }
 `
 
@@ -87,4 +94,20 @@ export const refreshAuth = async (refreshToken: string): Promise<AuthenticationR
   }
 
   return data.refresh as AuthenticationResult
+}
+
+export const verify = async (accessToken: string): Promise<boolean> => {
+  const variables: { request: VerifyRequest } = {
+    request: {
+      accessToken,
+    },
+  }
+
+  const { data, error } = await LensUrqlClient.query(VERIFY, variables).toPromise()
+  if (error) {
+    handleError(error)
+    return false
+  }
+
+  return data.verify as boolean
 }

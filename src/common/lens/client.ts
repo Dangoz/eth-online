@@ -7,7 +7,9 @@ const LensUrqlClient = createClient({
   // url: LENS_TESTNET_API_URL,
 
   fetchOptions: () => {
-    const token = typeof window !== 'undefined' ? localStorage.getItem(LENS_AUTH.ACCESS) : ''
+    const accessLocal = typeof window !== 'undefined' ? localStorage.getItem(LENS_AUTH.ACCESS) : ''
+    // check access token (local) for valid jwt format
+    const token = accessLocal && accessLocal.split('.').length === 3 ? accessLocal : ''
     return {
       headers: { authorization: token ? `Bearer ${token}` : '' },
     }

@@ -11,9 +11,10 @@ import { handleError } from '@/common/notification'
 interface LensSignInModalProps {
   open: boolean
   onClose: () => void
+  verify: () => void
 }
 
-const LensSignInModal: React.FC<LensSignInModalProps> = ({ open, onClose }) => {
+const LensSignInModal: React.FC<LensSignInModalProps> = ({ open, onClose, verify }) => {
   const { address } = useAddress()
   const [isLoading, setIsLoading] = useState(false)
   const { data: signature, signMessage, error: signingError } = useSignMessage()
@@ -26,15 +27,19 @@ const LensSignInModal: React.FC<LensSignInModalProps> = ({ open, onClose }) => {
     signMessage({ message: challenge })
   }
 
-  const authenticateWithLens = useCallback(async (address: string, signature: string) => {
-    if (!address || !signature) {
-      return
-    }
-    const { accessToken, refreshToken }: AuthenticationResult = await authenticate(address, signature)
-    localStorage.setItem(LENS_AUTH.ACCESS, accessToken)
-    localStorage.setItem(LENS_AUTH.REFRESH, refreshToken)
-    setIsLoading(false)
-  }, [])
+  const authenticateWithLens = useCallback(
+    async (address: string, signature: string) => {
+      if (!address || !signature) {
+        return
+      }
+      const { accessToken, refreshToken }: AuthenticationResult = await authenticate(address, signature)
+      localStorage.setItem(LENS_AUTH.ACCESS, accessToken)
+      localStorage.setItem(LENS_AUTH.REFRESH, refreshToken)
+      verify()
+      setIsLoading(false)
+    },
+    [verify],
+  )
 
   // upon successful signature, authenticate with lens
   useEffect(() => {

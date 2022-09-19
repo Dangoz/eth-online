@@ -44,6 +44,21 @@ const ProfileLeftInfo: React.FC<ProfileLeftInfoProps> = ({ profile, avatar }) =>
         {/* bio  */}
         <div className="overflow-y-auto break-words max-h-36">{profile.bio}</div>
 
+        {/* follow stats */}
+        <div className="flex w-full gap-10">
+          <div className="text-center">
+            <div className="text-[30px] font-bold">
+              {Intl.NumberFormat('en', { notation: 'compact' }).format(profile.stats.totalFollowing)}
+            </div>
+            Following
+          </div>
+          <div className="text-center">
+            <div className="text-[30px] font-bold">
+              {Intl.NumberFormat('en', { notation: 'compact' }).format(profile.stats.totalFollowers)}
+            </div>
+            Followers
+          </div>
+        </div>
         <Divider />
       </div>
     </>

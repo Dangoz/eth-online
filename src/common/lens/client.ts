@@ -7,7 +7,7 @@ const LensUrqlClient = createClient({
   // url: LENS_TESTNET_API_URL,
 
   fetchOptions: () => {
-    const token = localStorage.getItem(LENS_AUTH.ACCESS)
+    const token = typeof window !== 'undefined' ? localStorage.getItem(LENS_AUTH.ACCESS) : ''
     return {
       headers: { authorization: token ? `Bearer ${token}` : '' },
     }

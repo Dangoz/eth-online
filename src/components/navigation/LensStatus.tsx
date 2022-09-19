@@ -80,7 +80,7 @@ const LensStatus: React.FC = () => {
             <div className="rounded-full w-[41px] h-[41px] flex justify-center items-center gradientBG">
               <div
                 className={`w-[39px] h-[39px] bg-bgBlue p-2 rounded-full fill-lensLime 
-        shadow shadow-white cursor-pointer`}
+        shadow shadow-white`}
               >
                 <LensIcon />
               </div>

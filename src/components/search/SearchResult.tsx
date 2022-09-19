@@ -59,12 +59,14 @@ const SearchResult: React.FC<SearchProps> = ({ searchText }) => {
   // set profiles on search
   useEffect(() => {
     if (profilesResult.error) {
-      return handleError(profilesResult.error)
+      return console.error(profilesResult.error.message)
     }
     if (profilesResult.fetching) {
       return
     }
-    setProfiles(profilesResult.data.search.items)
+    if (profilesResult.data) {
+      setProfiles(profilesResult.data.search.items)
+    }
   }, [profilesResult])
 
   return (

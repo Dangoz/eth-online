@@ -15,6 +15,7 @@ module.exports = {
         bgGrey: '#374151',
         titlePurple: 'rgba(192, 132, 252, 0.5)',
         dividerGrey: '#323855',
+        lensLime: '#ABFE2C',
       }
     },
   },

@@ -25,3 +25,15 @@ a {
 /* @tailwind base; */
 @tailwind components;
 @tailwind utilities;
+
+.gradientBG {
+  @apply bg-gradient-to-r from-gradientOne via-gradientTwo to-gradientThree
+}
+
+.gradientText {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-gradientOne via-gradientTwo to-gradientThree
+}
+
+.Loader {
+  @apply bg-bgGrey animate-pulse
+}

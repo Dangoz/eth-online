@@ -3,6 +3,9 @@ import { useConnectModal, useAccountModal, useChainModal, ConnectButton } from '
 import useAddress from '@/hooks/useAddress'
 import { useEnsName, useEnsAvatar, chain } from 'wagmi'
 import SearchBar from '../search/SearchBar'
+import ConnectionStatus from './ConnectionStatus'
+import LensStatus from './LensStatus'
+import WorldCoinStatus from './WorldCoinStatus'
 
 const RightPanel: React.FC = () => {
   const { openConnectModal } = useConnectModal()
@@ -39,12 +42,16 @@ const RightPanel: React.FC = () => {
               shadow={true}
               size="xs"
               onClick={openConnectModal}
-              className={`bg-gradient-to-r from-gradientOne via-gradientTwo to-gradientThree h-[44px] w-[99px] text-[16px] text-[black] z-10`}
+              className={`gradientBG h-[44px] w-[99px] text-[16px] text-[black] z-10`}
             >
               Connect
             </Button>
           ) : (
-            <ConnectButton />
+            <>
+              {/* <ConnectionStatus /> */}
+              <LensStatus />
+              {/* <WorldCoinStatus /> */}
+            </>
           )}
         </div>
       </div>

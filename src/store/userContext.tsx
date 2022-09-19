@@ -3,8 +3,9 @@ import type { User, UserContext } from '@/types/user'
 
 const userInitialStates: UserContext = {
   userStore: {
-    WorldIdVerified: false,
-    LensAuthenticated: false,
+    worldIdVerified: false,
+    lensAuthenticated: false,
+    lensProfile: null,
   },
   setUserStore: (stateChange: Partial<User>) => {},
 }
@@ -18,8 +19,8 @@ export const UserContextProvider = ({ children }: { children: React.ReactNode })
     <userContext.Provider
       value={{
         userStore,
-        setUserStore: (data) => {
-          setUserStore({ ...userStore, ...data })
+        setUserStore: (stateChange: Partial<User>) => {
+          setUserStore((prevState) => ({ ...prevState, ...stateChange }))
         },
       }}
     >

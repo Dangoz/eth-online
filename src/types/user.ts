@@ -1,6 +1,9 @@
+import type { LensProfile } from './lens'
+
 export type User = {
-  LensAuthenticated: boolean
-  WorldIdVerified: boolean
+  lensAuthenticated: boolean
+  worldIdVerified: boolean
+  lensProfile: LensProfile | null
 }
 
 export type UserContext = {

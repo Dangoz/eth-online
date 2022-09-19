@@ -7,11 +7,14 @@ import { refreshAuth, verify as verifyLens, LENS_AUTH } from '@/common/lens/auth
 import jwt_decode from 'jwt-decode'
 import dayjs from 'dayjs'
 import useUser from '@/hooks/useUser'
+import { getLensProfileByAddress } from '@/common/lens/profile'
+import useAddress from '@/hooks/useAddress'
 
 const LensStatus: React.FC = () => {
   const [lensModalOpen, setLensModalOpen] = useState(false)
+  const { address } = useAddress()
   const {
-    userStore: { LensAuthenticated },
+    userStore: { lensAuthenticated, lensProfile },
     setUserStore,
   } = useUser()
 
@@ -20,7 +23,7 @@ const LensStatus: React.FC = () => {
       // retrieve token from local storage
       const accessLocal = localStorage.getItem(LENS_AUTH.ACCESS)
       const refreshLocal = localStorage.getItem(LENS_AUTH.REFRESH)
-      if (!accessLocal || !refreshLocal) {
+      if (!accessLocal || !refreshLocal || !address) {
         return
       }
 
@@ -31,35 +34,37 @@ const LensStatus: React.FC = () => {
         const { accessToken, refreshToken } = await refreshAuth(refreshLocal)
         localStorage.setItem(LENS_AUTH.ACCESS, accessToken)
         localStorage.setItem(LENS_AUTH.REFRESH, refreshToken)
-        setUserStore({ LensAuthenticated: true })
+        const lensProfile = await getLensProfileByAddress(address)
+        setUserStore({ lensAuthenticated: true, lensProfile })
         return
       }
 
       // verify unexpired access token
       const isValid = await verifyLens(accessLocal)
       if (isValid) {
-        setUserStore({ LensAuthenticated: true })
+        const lensProfile = await getLensProfileByAddress(address)
+        setUserStore({ lensAuthenticated: true, lensProfile })
       }
     } catch (err) {
       console.error((err as Error).message)
     }
-  }, [setUserStore])
+  }, [setUserStore, address])
 
   useEffect(() => {
-    if (LensAuthenticated) {
+    if (lensAuthenticated) {
       return
     }
     verify()
-  }, [verify, LensAuthenticated])
+  }, [verify, lensAuthenticated])
 
   return (
     <>
       <div className="flex">
-        {!LensAuthenticated && (
+        {!lensAuthenticated && (
           <Tooltip placement="bottom" content={<div className="text-[12px]">signin with Lens</div>}>
             <div
               onClick={() => setLensModalOpen(true)}
-              className={`w-[50px] h-[50px] bg-bgGrey flex justify-center items-center rounded-full 
+              className={`w-[40px] h-[40px] bg-bgGrey flex justify-center items-center rounded-full 
        fill-slate-300 cursor-pointer`}
             >
               <LensIconSmall />
@@ -67,26 +72,24 @@ const LensStatus: React.FC = () => {
           </Tooltip>
         )}
 
-        {
-          LensAuthenticated && (
-            // <Tooltip
-            //   placement="bottom"
-            //   content={<div></div>}
-            // >
-            <div className="rounded-full w-[52px] h-[52px] flex justify-center items-center">
+        {lensAuthenticated && (
+          <Tooltip
+            placement="bottom"
+            content={<div className="gradientText">{lensProfile ? `@${lensProfile.handle}` : 'Lens'}</div>}
+          >
+            <div className="rounded-full w-[41px] h-[41px] flex justify-center items-center gradientBG">
               <div
-                className={`w-[50px] h-[50px] bg-bgBlue p-2 rounded-full fill-lensLime 
+                className={`w-[39px] h-[39px] bg-bgBlue p-2 rounded-full fill-lensLime 
         shadow shadow-white cursor-pointer`}
               >
                 <LensIcon />
               </div>
             </div>
-          )
-          // </Tooltip>
-        }
+          </Tooltip>
+        )}
       </div>
 
-      {!LensAuthenticated && (
+      {!lensAuthenticated && (
         <LensSignInModal open={lensModalOpen} onClose={() => setLensModalOpen(false)} verify={verify} />
       )}
     </>

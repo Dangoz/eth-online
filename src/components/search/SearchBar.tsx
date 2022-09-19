@@ -28,7 +28,6 @@ const SearchBar: React.FC = () => {
         <input
           className={`h-[40px] bg-transparent border-none w-[100%] px-2 ${isInputFocused && 'text-black'}`}
           placeholder="Search..."
-          autoFocus
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           onFocus={() => setIsInputFocused(true)}

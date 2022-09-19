@@ -7,13 +7,16 @@ const ProfileTab: React.FC<ProfileTabProps> = ({ text, active }) => {
     <>
       <div
         className={`flex cursor-pointer justify-center items-center font-bold text-[16px] w-[100px] h-[40px] rounded-[8px] 
-        ${
-          active
-            ? 'bg-gradient-to-r from-gradientOne via-gradientTwo to-gradientThree text-white'
-            : 'text-titlePurple hover:bg-bgGrey'
-        }`}
+         text-white gradientBG
+        ${active ? ' primaryShadow' : ' hover:bg-bgGrey'}`}
       >
-        {text}
+        {active ? (
+          text
+        ) : (
+          <div className={`w-[96px] h-[38px] rounded-[6px] bg-bgBlue flex justify-center items-center hover:bg-bgGrey`}>
+            {text}
+          </div>
+        )}
       </div>
     </>
   )

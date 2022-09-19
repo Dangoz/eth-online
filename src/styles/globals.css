@@ -34,6 +34,10 @@ a {
   @apply bg-clip-text text-transparent bg-gradient-to-r from-gradientOne via-gradientTwo to-gradientThree
 }
 
+.primaryShadow {
+  box-shadow: 0 4px 14px 0 var(--nextui-colors-primaryShadow);
+}
+
 .Loader {
   @apply bg-bgGrey animate-pulse
 }

@@ -16,7 +16,8 @@ module.exports = {
         titlePurple: 'rgba(192, 132, 252, 0.5)',
         dividerGrey: '#323855',
         lensLime: '#ABFE2C',
-      }
+      },
+      boxShadow: "0 0 10px #29d, 0 0 5px #29d"
     },
   },
 }

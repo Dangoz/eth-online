@@ -69,11 +69,11 @@ const LensSignInModal: React.FC<LensSignInModalProps> = ({ open, onClose, verify
                 onClick={handleSignInLens}
               >
                 {!isLoading && (
-                  <div className="h-5 w-5 flex justify-center items-center fill-lensLime">
+                  <div className="w-5 h-5 flex justify-center fill-lensLime">
                     <LensIcon />
                   </div>
                 )}
-                {isLoading && <Loading color={'currentColor'} size="sm" textColor={'success'} />}
+                {isLoading && <Loading color={'currentColor'} size="sm" />}
                 <span className="ml-2">Sign in with Lens</span>
               </Button>
             </div>

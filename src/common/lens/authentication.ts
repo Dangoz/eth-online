@@ -46,7 +46,6 @@ export const authenticate = async (address: string, signature: string): Promise<
 
   const { data, error } = await LensUrqlClient.mutation(AUTHENTICATION, variables).toPromise()
   if (error) {
-    console.error(error.message)
     handleError(error)
     return { accessToken: '', refreshToken: '' }
   }

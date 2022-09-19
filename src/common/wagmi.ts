@@ -5,11 +5,7 @@ import { infuraProvider } from 'wagmi/providers/infura'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 
 export const { chains, provider } = configureChains(
-  [
-    chain.polygonMumbai,
-    chain.mainnet,
-    // chain.polygon
-  ],
+  [chain.polygonMumbai, chain.polygon, chain.mainnet],
   [
     infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_ID }),
     publicProvider(),

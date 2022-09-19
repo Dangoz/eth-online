@@ -44,7 +44,6 @@ const LensSignInModal: React.FC<LensSignInModalProps> = ({ open, onClose }) => {
     }
 
     if (signature) {
-      console.log('signature', signature)
       authenticateWithLens(address, signature)
     }
   }, [signature, signingError, authenticateWithLens, address])

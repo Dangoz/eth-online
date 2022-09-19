@@ -44,7 +44,7 @@ const tmdb = {
   getDetails: async (id: number, type: MediaType): Promise<Detail> => {
     try {
       const res = await tmdbAPI.get(`/${type}/${id}`)
-      const media = res.data as Media
+      const media: Media = { ...res.data, media_type: type }
       return { media, error: null }
     } catch (err) {
       console.error((err as Error).message)

@@ -27,6 +27,7 @@ export type Movie = {
   original_title?: string
   overview?: string
   tagline?: string
+  media_type: 'movie'
 }
 
 export type TV = {
@@ -46,6 +47,7 @@ export type TV = {
   overview?: string
   status?: status
   tagline?: string
+  media_type: 'tv'
 }
 
 export type Media = Movie | TV

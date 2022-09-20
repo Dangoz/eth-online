@@ -56,7 +56,13 @@ const LensSignInModal: React.FC<LensSignInModalProps> = ({ open, onClose, verify
   return (
     <>
       <div>
-        <Modal open={open} onClose={() => onClose()}>
+        <Modal
+          open={open}
+          onClose={() => {
+            setIsLoading(false)
+            onClose()
+          }}
+        >
           <Modal.Body>
             <div className="w-full flex justify-center p-5">
               <Button

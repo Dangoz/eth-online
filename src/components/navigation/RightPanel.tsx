@@ -41,7 +41,7 @@ const RightPanel: React.FC = () => {
               color={'gradient'}
               shadow={true}
               size="xs"
-              onClick={openConnectModal}
+              onPress={openConnectModal}
               className={`gradientBG h-[44px] w-[99px] text-[16px] text-[black] z-10`}
             >
               Connect

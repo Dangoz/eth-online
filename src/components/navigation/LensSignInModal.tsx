@@ -66,7 +66,7 @@ const LensSignInModal: React.FC<LensSignInModalProps> = ({ open, onClose, verify
                 bordered
                 className={'h-[40px] bg-transparent border'}
                 disabled={isLoading}
-                onClick={handleSignInLens}
+                onPress={handleSignInLens}
               >
                 {!isLoading && (
                   <div className="w-5 h-5 flex justify-center fill-lensLime">

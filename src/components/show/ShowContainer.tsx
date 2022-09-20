@@ -4,8 +4,13 @@ import { tmdbImagePrefixFull, tmdbImagePrefixOriginal } from '@/common/tmdb'
 import type { Media, Movie, TV } from '@/types/tmdb'
 import { Image } from '@nextui-org/react'
 import ShowReviews from './ShowReviews'
+import { Button } from '@nextui-org/react'
 
 const ShowContainer: React.FC<{ media: Media }> = ({ media }) => {
+  const handleReview = async () => {}
+
+  const handleFavorite = async () => {}
+
   return (
     <>
       <div>
@@ -14,7 +19,28 @@ const ShowContainer: React.FC<{ media: Media }> = ({ media }) => {
           alt="Cover Image"
           className="w-full h-[60vh] object-cover"
         />
-        <ShowReviews />
+
+        {/* <ShowReviews />  */}
+
+        <div className="flex justify-center w-full flex-col items-center">
+          <Button
+            color={'gradient'}
+            className="gradientBG h-[44px] w-[99px] text-[16px] text-[black]"
+            onPress={handleReview}
+          >
+            Review
+          </Button>
+
+          <br />
+
+          <Button
+            color={'gradient'}
+            className="gradientBG h-[44px] w-[99px] text-[16px] text-[black]"
+            onPress={handleFavorite}
+          >
+            Favorite
+          </Button>
+        </div>
       </div>
     </>
   )

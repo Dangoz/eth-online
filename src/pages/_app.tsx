@@ -17,19 +17,21 @@ function MyApp({ Component, pageProps }: AppProps) {
     type: 'dark',
   })
   return (
-    <UserContextProvider>
-      <UrqlProvider value={LensUrqlClient}>
-        <WagmiConfig client={wagmiClient}>
-          <RainbowKitProvider chains={chains} theme={darkTheme()}>
-            <NextUIProvider theme={theme}>
+    <>
+      <ToastContainer />
+      <UserContextProvider>
+        <UrqlProvider value={LensUrqlClient}>
+          <WagmiConfig client={wagmiClient}>
+            <RainbowKitProvider chains={chains} theme={darkTheme()}>
               <Navbar />
-              <Component {...pageProps} />
-              <ToastContainer />
-            </NextUIProvider>
-          </RainbowKitProvider>
-        </WagmiConfig>
-      </UrqlProvider>
-    </UserContextProvider>
+              <NextUIProvider theme={theme}>
+                <Component {...pageProps} />
+              </NextUIProvider>
+            </RainbowKitProvider>
+          </WagmiConfig>
+        </UrqlProvider>
+      </UserContextProvider>
+    </>
   )
 }
 

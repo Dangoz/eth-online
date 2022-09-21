@@ -7,4 +7,5 @@ export const handleError = (error: Error) => {
     autoClose: 2500,
     icon: '🚨',
   })
+  console.error(error.message)
 }

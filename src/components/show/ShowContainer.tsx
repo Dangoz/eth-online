@@ -5,9 +5,14 @@ import type { Media, Movie, TV } from '@/types/tmdb'
 import { Image } from '@nextui-org/react'
 import ShowReviews from './ShowReviews'
 import { Button } from '@nextui-org/react'
+import ReviewModal from '../review/ReviewModal'
 
 const ShowContainer: React.FC<{ media: Media }> = ({ media }) => {
-  const handleReview = async () => {}
+  const [showReviewModal, setShowReviewModal] = useState(false)
+
+  const handleReview = async () => {
+    setShowReviewModal(true)
+  }
 
   const handleFavorite = async () => {}
 
@@ -42,6 +47,8 @@ const ShowContainer: React.FC<{ media: Media }> = ({ media }) => {
           </Button>
         </div>
       </div>
+
+      <ReviewModal open={showReviewModal} onClose={() => setShowReviewModal(false)} media={media} />
     </>
   )
 }

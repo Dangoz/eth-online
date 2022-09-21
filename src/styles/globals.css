@@ -41,3 +41,7 @@ a {
 .Loader {
   @apply bg-bgGrey animate-pulse
 }
+
+/* .Toastify__toast-container {
+  z-index: 100001;
+} */

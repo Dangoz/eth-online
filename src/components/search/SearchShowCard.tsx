@@ -3,6 +3,7 @@ import { tmdbImagePrefixWide } from '@/common/tmdb'
 import React, { useCallback } from 'react'
 import { Image } from '@nextui-org/react'
 import Router from 'next/router'
+import { getMediaReleaseDate } from '@/common/tmdb'
 
 const SearchShowCard: React.FC<{ show: TmdbShow }> = ({ show }) => {
   const thumbnailURL =
@@ -26,7 +27,7 @@ const SearchShowCard: React.FC<{ show: TmdbShow }> = ({ show }) => {
         <div>
           <div>
             {show.title || show.name}{' '}
-            <span className=" text-gray-400">{show.release_date && `(${show.release_date.slice(0, 4)})`}</span>
+            <span className=" text-gray-400">{`(${getMediaReleaseDate(show)?.slice(0, 4)})`}</span>
           </div>
           <div className=" text-[11px]">{show.overview && `${show.overview.slice(0, 80)}...`}</div>
         </div>

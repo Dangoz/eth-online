@@ -4,12 +4,11 @@ import type { TmdbShow, MediaType, Movie, TV, Media } from '@/types/tmdb'
 import { TMDB_API_URL } from './endpoints'
 
 // tmdb image path prefix
-export const tmdbImagePrefix300 = 'https://image.tmdb.org/t/p/w300'
-export const tmdbImagePrefix500 = 'https://image.tmdb.org/t/p/w500'
 export const tmdbImagePrefix780 = 'https://image.tmdb.org/t/p/w780'
 export const tmdbImagePrefixWide = 'https://image.tmdb.org/t/p/w1280'
 export const tmdbImagePrefixFull = 'https://image.tmdb.org/t/p/w1920_and_h800_multi_faces'
 export const tmdbImagePrefixOriginal = 'https://image.tmdb.org/t/p/original'
+export const tmdbImagePrefixPoster = 'https://www.themoviedb.org/t/p/w600_and_h900_bestv2'
 
 // create axios object for tmdb
 const tmdbAPI = axios.create({
@@ -53,8 +52,6 @@ const tmdb = {
   },
 }
 
-export default tmdb
-
 type Detail =
   | {
       media: Media
@@ -64,3 +61,16 @@ type Detail =
       media: null
       error: Error
     }
+
+export default tmdb
+
+// util functions for getting Media properties
+export const getMediaTitle = (media: Media): string => {
+  const title = media.media_type === 'movie' ? media.title || media.original_title : media.name
+  return title || ''
+}
+
+export const getMediaReleaseDate = (media: Media): string | null => {
+  const releaseDate = media.media_type === 'movie' ? media.release_date : media.first_air_date
+  return releaseDate || null
+}

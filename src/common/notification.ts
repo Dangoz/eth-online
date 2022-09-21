@@ -9,3 +9,12 @@ export const handleError = (error: Error) => {
   })
   console.error(error.message)
 }
+
+export const handleSuccess = (message: string) => {
+  toast(message, {
+    type: 'success',
+    position: 'top-right',
+    autoClose: 2500,
+    icon: '🪐',
+  })
+}

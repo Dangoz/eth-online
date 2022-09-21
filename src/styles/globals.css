@@ -42,6 +42,7 @@ a {
   @apply bg-bgGrey animate-pulse
 }
 
-/* .Toastify__toast-container {
-  z-index: 100001;
-} */
+.Toastify {
+  position: absolute;
+  z-index: 1000000;
+}

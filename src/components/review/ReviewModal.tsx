@@ -19,12 +19,11 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media }) => {
         open={open}
         onClose={onClose}
         closeButton
-        // blur
-
+        blur
         // set z-index to 1000 to make sure it's on top of the navbar
         // css={{ zIndex: 1000 }}
         css={{
-          zIndex: 1,
+          zIndex: 0,
         }}
       >
         <Modal.Body>

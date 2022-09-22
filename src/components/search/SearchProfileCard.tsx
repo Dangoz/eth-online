@@ -1,6 +1,6 @@
 import { LensSearchProfile } from '@/types/lens'
 import { Image } from '@nextui-org/react'
-import { parseIpfs } from '@/common/ipfs'
+import { parseIpfs } from '@/common/utils'
 import GradientText from '../ui/GradientText'
 import { useEnsName } from 'wagmi'
 import Router from 'next/router'

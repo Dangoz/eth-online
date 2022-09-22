@@ -5,7 +5,7 @@ import type { LensProfile } from '@/types/lens'
 import { useEffect, useState } from 'react'
 import { handleError } from '@/common/notification'
 import { Image } from '@nextui-org/react'
-import { parseIpfs } from '@/common/ipfs'
+import { parseIpfs } from '@/common/utils'
 import ProfileLeftInfo from './ProfileLeftInfo'
 import ProfileRightContent from './ProfileRightContent'
 

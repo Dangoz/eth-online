@@ -1,8 +1,9 @@
 import { LensProfile } from '@/types/lens'
-import { parseIpfs } from '@/common/ipfs'
+import { parseIpfs, parseAddress } from '@/common/utils'
 import GradientText from '@/components/ui/GradientText'
 import { useEnsName } from 'wagmi'
 import Divider from '@/components/ui/Divider'
+import { useState } from 'react'
 
 interface ProfileLeftInfoProps {
   profile: LensProfile | null
@@ -10,6 +11,7 @@ interface ProfileLeftInfoProps {
 }
 
 const ProfileLeftInfo: React.FC<ProfileLeftInfoProps> = ({ profile, avatar }) => {
+  const [onHoverAddress, setOnHoverAddress] = useState<boolean>(false)
   const { data: ensName } = useEnsName({
     address: profile?.ownedBy,
     chainId: 1,
@@ -39,6 +41,13 @@ const ProfileLeftInfo: React.FC<ProfileLeftInfoProps> = ({ profile, avatar }) =>
             <span className=" text-slate-300">{`(${profile.id})`}</span>
           </div>
           <div className="flex">{ensName && <GradientText text={`@${ensName}`} />}</div>
+          <div
+            className="flex"
+            onMouseEnter={() => setOnHoverAddress(true)}
+            onMouseLeave={() => setOnHoverAddress(false)}
+          >
+            <GradientText text={onHoverAddress ? profile.ownedBy : parseAddress(profile.ownedBy)} />
+          </div>
         </div>
 
         {/* bio  */}

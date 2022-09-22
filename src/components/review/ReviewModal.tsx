@@ -5,6 +5,7 @@ import { tmdbImagePrefixPoster, getMediaTitle, getMediaReleaseDate } from '@/com
 import { useState } from 'react'
 import StarRating from '@/components/ui/StarRating'
 import Divider from '@/components/ui/Divider'
+import { parseReviewPost } from '@/common/review'
 
 interface ReviewModalProps {
   open: boolean
@@ -17,7 +18,20 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media }) => {
   const [reviewTitle, setReviewTitle] = useState('')
   const [reviewContent, setReviewContent] = useState('')
 
-  const handleReviewSubmit = async () => {}
+  const handleReviewSubmit = async () => {
+    const reviewPost = parseReviewPost({
+      mediaName: getMediaTitle(media),
+      mediaYear: getMediaReleaseDate(media) || '',
+      mediaDescription: media.overview || '',
+      mediaImage: tmdbImagePrefixPoster + (media.poster_path || media.backdrop_path),
+      reviewRating: rating,
+      reviewHeadline: reviewTitle,
+      reviewContent,
+      mediaType: media.media_type,
+    })
+
+    console.log(reviewPost)
+  }
 
   return (
     <>

@@ -1,3 +1,8 @@
+// lens
+export const LENS_APP_ID = 'cineplanet'
+export const LENSHUB_POLYGON_PROXY_ADDRESS = '0xDb46d1Dc155634FbC732f92E853b10B288AD5a1d'
+export const LENSHUB_MUMBAI_PROXY_ADDRESS = '0x60Ae865ee4C725cd04353b5AAb364553f56ceF82'
+
 // nftport
 export const NFTPORT_API_KEY = process.env.NEXT_PUBLIC_NFTPORT_API_KEY
 

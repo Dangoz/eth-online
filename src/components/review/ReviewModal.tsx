@@ -56,6 +56,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media }) => {
             <div className="font-semibold">YOUR REVIEW</div>
 
             <Input
+              aria-label="Write a headline for your review here..."
               bordered
               placeholder="Write a headline for your review here..."
               color="secondary"
@@ -64,6 +65,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media }) => {
             />
 
             <Textarea
+              aria-label="Write your review here..."
               bordered
               color="secondary"
               placeholder="Write your review here..."

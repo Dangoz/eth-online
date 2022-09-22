@@ -1,8 +1,8 @@
 import { Modal, Button, Loading, Spacer, Textarea, Input } from '@nextui-org/react'
 import type { Media } from '@/types/tmdb'
-import { handleError, handleSuccess } from '@/common/notification'
+import { handleError, handleSuccess, notifyErrorMessage } from '@/common/notification'
 import { tmdbImagePrefixPoster, getMediaTitle, getMediaReleaseDate } from '@/common/tmdb'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import StarRating from '@/components/ui/StarRating'
 import Divider from '@/components/ui/Divider'
 import { parseReviewPost } from '@/common/review'
@@ -19,6 +19,7 @@ import { createPostTypedData } from '@/common/lens/post'
 import { utils as ethersUtils } from 'ethers'
 import { useSignTypedData, useContractWrite } from 'wagmi'
 import omit from 'lodash.omit'
+import { broadcastRelay } from '@/common/lens/relay'
 
 interface ReviewModalProps {
   open: boolean
@@ -34,7 +35,14 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media }) => {
   const [reviewTitle, setReviewTitle] = useState('')
   const [reviewContent, setReviewContent] = useState('')
 
-  const { isError: signingError, isLoading: isSigning, signTypedDataAsync } = useSignTypedData()
+  const {
+    isError: signingError,
+    isLoading: isSigning,
+    signTypedDataAsync,
+    data: signature,
+  } = useSignTypedData({
+    onError: (error) => notifyErrorMessage((error as any).reason),
+  })
 
   const { writeAsync } = useContractWrite({
     mode: 'recklesslyUnprepared',
@@ -45,92 +53,110 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media }) => {
   })
 
   const handleReviewSubmit = async () => {
-    if (!lensProfile) {
-      return
-    }
+    try {
+      if (!lensProfile) {
+        return
+      }
 
-    const reviewPost = parseReviewPost({
-      mediaName: getMediaTitle(media),
-      mediaYear: getMediaReleaseDate(media) || '',
-      mediaDescription: media.overview || '',
-      reviewRating: rating,
-      reviewHeadline: reviewTitle,
-      reviewContent,
-      mediaType: media.media_type,
-    })
+      const reviewPost = parseReviewPost({
+        mediaName: getMediaTitle(media),
+        mediaYear: getMediaReleaseDate(media) || '',
+        mediaDescription: media.overview || '',
+        reviewRating: rating,
+        reviewHeadline: reviewTitle,
+        reviewContent,
+        mediaType: media.media_type,
+      })
 
-    console.log(reviewPost)
+      console.log(reviewPost)
 
-    const publicationMetadata: LensPublicationMetadata = {
-      appId: LENS_APP_ID,
-      metadata_id: nanoid(),
-      description: reviewPost,
-      content: reviewPost,
-      name: `Review of ${getMediaTitle(media)} by ${lensProfile?.handle}`,
-      version: '2.0.0',
-      media: [
-        {
-          item: tmdbImagePrefixPoster + (media.poster_path || media.backdrop_path),
+      const publicationMetadata: LensPublicationMetadata = {
+        appId: LENS_APP_ID,
+        metadata_id: nanoid(),
+        description: reviewPost,
+        content: reviewPost,
+        name: `Review of ${getMediaTitle(media)} by ${lensProfile?.handle}`,
+        version: '2.0.0',
+        media: [
+          {
+            item: tmdbImagePrefixPoster + (media.poster_path || media.backdrop_path),
+          },
+        ],
+        attributes: [],
+        external_url: '',
+        image: tmdbImagePrefixPoster + (media.poster_path || media.backdrop_path),
+        mainContentFocus: PublicationMainFocus.Article,
+        locale: 'en',
+        tags: [],
+        // contentWarning; 'SPOLIER'
+      }
+
+      const ipfsMetadata: IPFSMetadataInput = {
+        name: publicationMetadata.name,
+        description: publicationMetadata.description,
+        file_url: ' ',
+        // external_url: publicationMetadata.external_url,
+        attributes: [],
+        custom_fields: {
+          ...publicationMetadata,
         },
-      ],
-      attributes: [],
-      external_url: '',
-      image: tmdbImagePrefixPoster + (media.poster_path || media.backdrop_path),
-      mainContentFocus: PublicationMainFocus.Article,
-      locale: 'en',
-      tags: [],
-      // contentWarning; 'SPOLIER'
-    }
+      }
 
-    const ipfsMetadata: IPFSMetadataInput = {
-      name: publicationMetadata.name,
-      description: publicationMetadata.description,
-      file_url: ' ',
-      // external_url: publicationMetadata.external_url,
-      attributes: [],
-      custom_fields: {
-        ...publicationMetadata,
-      },
-    }
+      const ipfsMetadataOutput = await nftport.uploadMetadata(ipfsMetadata)
+      if (!ipfsMetadataOutput) {
+        return handleError(new Error('Failed to upload metadata'))
+      }
+      const metadata_uri = ipfsMetadataOutput.metadata_uri
+      const metadataURL = parseIpfs(metadata_uri)
+      console.log('metadataURL', metadataURL)
 
-    const ipfsMetadataOutput = await nftport.uploadMetadata(ipfsMetadata)
-    if (!ipfsMetadataOutput) {
-      return handleError(new Error('Failed to upload metadata'))
-    }
-    const metadata_uri = ipfsMetadataOutput.metadata_uri
-    const metadataURL = parseIpfs(metadata_uri)
-    console.log('metadataURL', metadataURL)
+      const result = await createPostTypedData(lensProfile.id, metadataURL)
+      if (!result) {
+        return handleError(new Error('Failed to create post'))
+      }
+      const typedData = result.typedData
+      const typedId = result.id
+      console.log('typedData', typedData)
+      console.log('typedId', typedId)
 
-    const result = await createPostTypedData(lensProfile.id, metadataURL)
-    if (!result) {
-      return handleError(new Error('Failed to create post'))
-    }
-    const typedData = result.typedData
+      const signature = await signTypedDataAsync({
+        domain: omit(typedData.domain, '__typename'),
+        types: omit(typedData.types, '__typename'),
+        value: omit(typedData.value, '__typename'),
+      })
+      console.log('signature', signature)
 
-    const signature = await signTypedDataAsync({
-      domain: omit(typedData.domain, '__typename'),
-      types: omit(typedData.types, '__typename'),
-      value: omit(typedData.value, '__typename'),
-    })
-    const { v, r, s } = ethersUtils.splitSignature(signature)
+      const relayResult = await broadcastRelay(typedId, signature)
+      console.log('relayResult', relayResult)
+      if (relayResult) {
+        handleSuccess('Review posted successfully')
+        onClose()
+        return
+      }
 
-    const tx = await writeAsync?.({
-      recklesslySetUnpreparedArgs: {
-        profileId: typedData.value.profileId,
-        contentURI: typedData.value.contentURI,
-        collectModule: typedData.value.collectModule,
-        collectModuleInitData: typedData.value.collectModuleInitData,
-        referenceModule: typedData.value.referenceModule,
-        referenceModuleInitData: typedData.value.referenceModuleInitData,
-        sig: {
-          v,
-          r,
-          s,
-          deadline: typedData.value.deadline,
+      const { v, r, s } = ethersUtils.splitSignature(signature)
+      const tx = await writeAsync?.({
+        recklesslySetUnpreparedArgs: {
+          profileId: typedData.value.profileId,
+          contentURI: typedData.value.contentURI,
+          collectModule: typedData.value.collectModule,
+          collectModuleInitData: typedData.value.collectModuleInitData,
+          referenceModule: typedData.value.referenceModule,
+          referenceModuleInitData: typedData.value.referenceModuleInitData,
+          sig: {
+            v,
+            r,
+            s,
+            deadline: typedData.value.deadline,
+          },
         },
-      },
-    })
-    console.log('FINALLY', tx.hash)
+      })
+      console.log('FINALLY', tx.hash)
+      if (tx) {
+        handleSuccess('Review posted successfully')
+        onClose()
+      }
+    } catch {}
   }
 
   return (

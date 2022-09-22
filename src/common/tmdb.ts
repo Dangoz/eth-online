@@ -2,6 +2,7 @@ import axios from 'axios'
 import { handleError } from './notification'
 import type { TmdbShow, MediaType, Movie, TV, Media } from '@/types/tmdb'
 import { TMDB_API_URL } from './endpoints'
+import { TMDB_API_KEY, TMDB_API_FALLBACK_KEY } from './constants'
 
 // tmdb image path prefix
 export const tmdbImagePrefix780 = 'https://image.tmdb.org/t/p/w780'
@@ -17,7 +18,7 @@ const tmdbAPI = axios.create({
     'Content-Type': 'application/json',
   },
   params: {
-    api_key: process.env.NEXT_PUBLIC_TMDB_API_KEY,
+    api_key: TMDB_API_KEY,
   },
 })
 

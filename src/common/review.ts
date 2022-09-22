@@ -1,5 +1,3 @@
-import type {} from '@/types/nftport'
-import type { LensPublicationMetadata } from '@/types/lens'
 import type { ParseReivewPostInput } from '@/types/review'
 
 // organize and format review post
@@ -25,4 +23,27 @@ ${reviewContentEmoji} ${input.reviewContent}
   `
 
   return post
+}
+
+// uno reverse ~
+export const reverseParseReviewPost = (reviewPost: string): ParseReivewPostInput => {
+  const lines = reviewPost.split('\n')
+  const mediaType = lines[0].includes('Movie') ? 'movie' : 'tv'
+  const mediaName = lines[1].split('-')[1].split('(')[0].trim()
+  const mediaYear = lines[1].split('(')[1].split(')')[0].trim()
+  const mediaDescription = lines[3]
+  const reviewRating = lines[5].split(' ')[1].split('🟣').length - 1
+  const reviewHeadline = lines[7].split('📌')[1].trim()
+  const reviewContent = lines.slice(9).join('\n')
+
+  return {
+    mediaName,
+    mediaYear,
+    mediaDescription,
+    mediaImage: '',
+    reviewRating,
+    reviewHeadline,
+    reviewContent,
+    mediaType,
+  }
 }

@@ -5,7 +5,7 @@ import { tmdbImagePrefixPoster, getMediaTitle, getMediaReleaseDate } from '@/com
 import { useState } from 'react'
 import StarRating from '@/components/ui/StarRating'
 import Divider from '@/components/ui/Divider'
-import { parseReviewPost } from '@/common/review'
+import { parseReviewPost, reverseParseReviewPost } from '@/common/review'
 
 interface ReviewModalProps {
   open: boolean
@@ -19,18 +19,28 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media }) => {
   const [reviewContent, setReviewContent] = useState('')
 
   const handleReviewSubmit = async () => {
-    const reviewPost = parseReviewPost({
-      mediaName: getMediaTitle(media),
-      mediaYear: getMediaReleaseDate(media) || '',
-      mediaDescription: media.overview || '',
-      mediaImage: tmdbImagePrefixPoster + (media.poster_path || media.backdrop_path),
-      reviewRating: rating,
-      reviewHeadline: reviewTitle,
-      reviewContent,
-      mediaType: media.media_type,
-    })
+    try {
+      const reviewPost = parseReviewPost({
+        mediaName: getMediaTitle(media),
+        mediaYear: getMediaReleaseDate(media) || '',
+        mediaDescription: media.overview || '',
+        mediaImage: tmdbImagePrefixPoster + (media.poster_path || media.backdrop_path),
+        reviewRating: rating,
+        reviewHeadline: reviewTitle,
+        reviewContent,
+        mediaType: media.media_type,
+      })
 
-    console.log(reviewPost)
+      console.log(reviewPost)
+
+      const data = reverseParseReviewPost(reviewPost)
+      console.log('data', data)
+
+      const reviewPost2 = parseReviewPost(data)
+      console.log('reviewPost2', reviewPost2)
+    } catch (err) {
+      console.log((err as Error).message)
+    }
   }
 
   return (

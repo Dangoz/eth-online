@@ -1,4 +1,4 @@
-import type { ProfileMedia } from '@/types/generated/types'
+import type { ProfileMedia, PublicationMetadataV2Input } from '@/types/generated/types'
 
 export type LensSearchProfile = {
   id: string
@@ -22,3 +22,5 @@ export type LensProfile = {
     totalFollowing: number
   }
 }
+
+export type LensPublicationMetadata = PublicationMetadataV2Input

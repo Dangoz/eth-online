@@ -59,7 +59,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media }) => {
               bordered
               placeholder="Write a headline for your review here..."
               color="secondary"
-              value={reviewTitle}
+              value={`${reviewTitle}`}
               onChange={(e) => setReviewTitle(e.target.value)}
             />
 

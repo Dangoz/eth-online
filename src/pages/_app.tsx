@@ -24,8 +24,8 @@ function MyApp({ Component, pageProps }: AppProps) {
           <WagmiConfig client={wagmiClient}>
             <RainbowKitProvider chains={chains} theme={darkTheme()}>
               <NextUIProvider theme={theme}>
-                <Component {...pageProps} />
                 <Navbar />
+                <Component {...pageProps} />
                 <ToastContainer />
                 <RelayChat />
               </NextUIProvider>

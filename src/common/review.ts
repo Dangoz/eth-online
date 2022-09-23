@@ -2,7 +2,7 @@ import type { ParseReivewPostInput } from '@/types/review'
 
 // organize and format review post
 export const parseReviewPost = (input: ParseReivewPostInput): string => {
-  const mediaType = input.mediaType === 'movie' ? 'Movie 🎬' : 'TV 📺'
+  const mediaType = input.mediaType === 'movie' ? '🎬 Movie' : '📺 TV'
   const description =
     input.mediaDescription.length > 200 ? `${input.mediaDescription.substring(0, 200)}...` : input.mediaDescription
   const stars = '🟣'.repeat(input.reviewRating)

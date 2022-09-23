@@ -10,7 +10,7 @@ import type { IPFSMetadataInput } from '@/types/nftport'
 import type { LensPublicationMetadata } from '@/types/lens'
 import { PublicationMainFocus } from '@/types/generated/types'
 import { LENS_APP_ID, LENSHUB_MUMBAI_PROXY_ADDRESS } from '@/common/constants'
-import lensHubAbi from '@/abis/LensHubProxyMumbai.json'
+import lensHubAbi from '@/abis/LensHubProxy.json'
 import { nanoid } from 'nanoid'
 import useUser from '@/hooks/useUser'
 import nftport from '@/common/nftPort'
@@ -129,7 +129,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media }) => {
       const relayResult = await broadcastRelay(typedId, signature)
       console.log('relayResult', relayResult)
       if (relayResult) {
-        handleSuccess('Review posted successfully')
+        handleSuccess('Review Posted Successfully')
         onClose()
         return
       }
@@ -153,7 +153,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media }) => {
       })
       console.log('FINALLY', tx.hash)
       if (tx) {
-        handleSuccess('Review posted successfully')
+        handleSuccess('Review Posted Successfully')
         onClose()
       }
     } catch {}

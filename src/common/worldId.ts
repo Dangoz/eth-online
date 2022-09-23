@@ -16,7 +16,6 @@ export const verify = async (input: VerifyInput): Promise<VerifyOutput | null> =
     const response = await worldidAPI.post('/verify', input)
     return response.data
   } catch (err) {
-    console.log('ERROR', JSON.stringify(err, null, 2))
     handleError(err as Error)
     return null
   }

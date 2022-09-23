@@ -27,7 +27,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <Navbar />
                 <Component {...pageProps} />
                 <ToastContainer />
-                <RelayChat />
+                {/* <RelayChat /> */}
               </NextUIProvider>
             </RainbowKitProvider>
           </WagmiConfig>

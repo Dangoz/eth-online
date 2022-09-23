@@ -6,15 +6,19 @@ import { Image } from '@nextui-org/react'
 import ShowReviews from './ShowReviews'
 import { Button } from '@nextui-org/react'
 import ReviewModal from '../review/ReviewModal'
+import WorldIDModal from '../navigation/WorldIDModal'
 
 const ShowContainer: React.FC<{ media: Media }> = ({ media }) => {
   const [showReviewModal, setShowReviewModal] = useState(false)
+  const [showWorldIDModal, setShowWorldIDModal] = useState(false)
 
   const handleReview = async () => {
     setShowReviewModal(true)
   }
 
-  const handleFavorite = async () => {}
+  const handleFavorite = async () => {
+    setShowWorldIDModal(true)
+  }
 
   return (
     <>
@@ -49,6 +53,7 @@ const ShowContainer: React.FC<{ media: Media }> = ({ media }) => {
       </div>
 
       <ReviewModal open={showReviewModal} onClose={() => setShowReviewModal(false)} media={media} />
+      <WorldIDModal open={showWorldIDModal} onClose={() => setShowWorldIDModal(false)} />
     </>
   )
 }

@@ -4,6 +4,8 @@ import GradientText from '@/components/ui/GradientText'
 import { useEnsName } from 'wagmi'
 import Divider from '@/components/ui/Divider'
 import { useState } from 'react'
+import { Button } from '@nextui-org/react'
+import { useLaunch } from '@relaycc/receiver'
 
 interface ProfileLeftInfoProps {
   profile: LensProfile | null
@@ -11,10 +13,17 @@ interface ProfileLeftInfoProps {
 }
 
 const ProfileLeftInfo: React.FC<ProfileLeftInfoProps> = ({ profile, avatar }) => {
+  const launch = useLaunch()
   const { data: ensName } = useEnsName({
     address: profile?.ownedBy,
     chainId: 1,
   })
+
+  const handleFollowProfile = async () => {}
+
+  const handleMessageProfile = async () => {
+    launch(profile?.ownedBy)
+  }
 
   if (!profile) {
     return <></>
@@ -64,6 +73,24 @@ const ProfileLeftInfo: React.FC<ProfileLeftInfoProps> = ({ profile, avatar }) =>
           </div>
         </div>
         <Divider />
+
+        <Button
+          color={'gradient'}
+          size="xs"
+          className={`gradientBG h-[40px] w-[99px] text-[16px] text-[black] z-10`}
+          onPress={handleFollowProfile}
+        >
+          Follow
+        </Button>
+
+        <Button
+          color={'gradient'}
+          size="xs"
+          className={`gradientBG h-[40px] w-[99px] text-[16px] text-[black] z-10`}
+          onPress={handleMessageProfile}
+        >
+          Message
+        </Button>
       </div>
     </>
   )

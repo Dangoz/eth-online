@@ -11,6 +11,7 @@ import Navbar from '@/components/navigation/Navbar'
 import { Provider as UrqlProvider } from 'urql'
 import { UserContextProvider } from '@/store/userContext'
 import LensUrqlClient from '@/common/lens/client'
+import RelayChat from '@/components/profile/RelayChat'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const theme = createTheme({
@@ -18,14 +19,15 @@ function MyApp({ Component, pageProps }: AppProps) {
   })
   return (
     <>
-      <ToastContainer />
       <UserContextProvider>
         <UrqlProvider value={LensUrqlClient}>
           <WagmiConfig client={wagmiClient}>
             <RainbowKitProvider chains={chains} theme={darkTheme()}>
-              <Navbar />
               <NextUIProvider theme={theme}>
                 <Component {...pageProps} />
+                <Navbar />
+                <ToastContainer />
+                <RelayChat />
               </NextUIProvider>
             </RainbowKitProvider>
           </WagmiConfig>

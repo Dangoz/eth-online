@@ -3,9 +3,12 @@ import { parseIpfs, parseAddress } from '@/common/utils'
 import GradientText from '@/components/ui/GradientText'
 import { useEnsName } from 'wagmi'
 import Divider from '@/components/ui/Divider'
-import { useState } from 'react'
-import { Button } from '@nextui-org/react'
+import { useState, useEffect } from 'react'
+import { Button, Loading } from '@nextui-org/react'
 import { useLaunch } from '@relaycc/receiver'
+import { IS_FOLLOWED_BY_ME } from '@/common/lens/follow'
+import { useQuery } from 'urql'
+import { notifyErrorMessage } from '@/common/notification'
 
 interface ProfileLeftInfoProps {
   profile: LensProfile | null
@@ -13,13 +16,36 @@ interface ProfileLeftInfoProps {
 }
 
 const ProfileLeftInfo: React.FC<ProfileLeftInfoProps> = ({ profile, avatar }) => {
+  const [isFollowed, setIsFollowed] = useState<boolean | null>(null)
   const launch = useLaunch()
   const { data: ensName } = useEnsName({
     address: profile?.ownedBy,
     chainId: 1,
   })
 
-  const handleFollowProfile = async () => {}
+  const [isFollowedResult, FetchIsfolloweResult] = useQuery({
+    query: IS_FOLLOWED_BY_ME,
+    variables: {
+      profileId: profile?.id,
+    },
+    pause: !profile,
+  })
+
+  useEffect(() => {
+    if (isFollowedResult.error) {
+      return notifyErrorMessage(isFollowedResult.error.message)
+    }
+    if (isFollowedResult.fetching) {
+      return
+    }
+    if (isFollowedResult.data) {
+      setIsFollowed(isFollowedResult.data.profile.isFollowedByMe ?? null)
+    }
+  }, [isFollowedResult])
+
+  const handleFollowProfile = async () => {
+    alert('ruaa')
+  }
 
   const handleMessageProfile = async () => {
     launch(profile?.ownedBy)
@@ -79,8 +105,9 @@ const ProfileLeftInfo: React.FC<ProfileLeftInfoProps> = ({ profile, avatar }) =>
           size="xs"
           className={`gradientBG h-[40px] w-[99px] text-[16px] text-[black] z-10`}
           onPress={handleFollowProfile}
+          disabled={isFollowed === null}
         >
-          Follow
+          {isFollowed === null ? <Loading type="points" /> : isFollowed ? <div>Unfollow</div> : <div>Follow</div>}
         </Button>
 
         <Button

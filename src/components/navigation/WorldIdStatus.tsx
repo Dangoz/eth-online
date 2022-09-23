@@ -1,6 +1,6 @@
 import React from 'react'
 
-const WorldCoinStatus: React.FC = () => {
+const WorldIdStatus: React.FC = () => {
   return (
     <>
       <div>3</div>
@@ -8,4 +8,4 @@ const WorldCoinStatus: React.FC = () => {
   )
 }
 
-export default WorldCoinStatus
+export default WorldIdStatus

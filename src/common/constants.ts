@@ -12,3 +12,6 @@ export const TMDB_API_FALLBACK_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY_FALLBA
 
 // ipfs assets
 export const LOGO_IPFS_URL = 'https://ipfs.io/ipfs/bafkreih3j4iudkhcj6ge3codfmxt7dy35szzevn7fkjxkr7ht5zcb6t364'
+
+// worldid
+export const WORLDID_ACTION_ID = process.env.NEXT_PUBLIC_WORLDID_ACTION_ID

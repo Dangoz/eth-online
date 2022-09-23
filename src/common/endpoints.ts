@@ -13,3 +13,6 @@ export const TMDB_API_URL = 'https://api.themoviedb.org/3'
 // ipfs
 // export const IPFS_GATEWAY = 'https://ipfs.io/ipfs'
 export const IPFS_GATEWAY = 'https://lens.infura-ipfs.io/ipfs'
+
+// worldid
+export const WORLDID_API_URL = 'https://developer.worldcoin.org/api/v1'

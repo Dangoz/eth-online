@@ -31,7 +31,7 @@ const ReviewCard: React.FC<ReviewcardProps> = ({ review }) => {
     <>
       <div
         className="w-full rounded-[24px] bg-bgGrey flex flex-col justify-start border-[2px] border-white 
-         p-[24px] gap-2 mt-5"
+         p-[24px] gap-2 mt-5 transition duration-150 ease-in-out"
         style={{
           breakInside: 'avoid',
         }}
@@ -57,7 +57,7 @@ const ReviewCard: React.FC<ReviewcardProps> = ({ review }) => {
           <BackArrow />
           <img alt="poster" className="w-[60px] h-[90px] object-cover" src={review.metadata.image} />
           <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 font-semibold">
               <div>{originalReview?.mediaName}</div>
               {/* <div className='text-[10px] text-slate-300'>{`(${originalReview?.mediaYear.slice(0, 4)})`}</div> */}
             </div>

@@ -66,6 +66,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media }) => {
         reviewHeadline: reviewTitle,
         reviewContent,
         mediaType: media.media_type,
+        hashTags: ['Review', getMediaTitle(media)],
       })
 
       console.log(reviewPost)

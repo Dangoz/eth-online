@@ -9,4 +9,5 @@ export type ParseReivewPostInput = {
   reviewContent: string
   mediaType: MediaType
   mediaImage?: string
+  hashTags: string[]
 }

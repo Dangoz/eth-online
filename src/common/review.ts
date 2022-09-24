@@ -9,6 +9,7 @@ export const parseReviewPost = (input: ParseReivewPostInput): string => {
   const emptyStars = '⚪'.repeat(10 - input.reviewRating)
   const reviewHeadlineEmoji = '📌'
   const reviewContentEmoji = '📝'
+  const hashTags = input.hashTags.map((tag) => `#${tag}`).join(' ')
 
   const post = `
 ${mediaType} Review - ${input.mediaName} (${input.mediaYear.slice(0, 4)}) 
@@ -20,6 +21,8 @@ Rating: ${stars}${emptyStars} (${input.reviewRating}/10)
 ${reviewHeadlineEmoji} ${input.reviewHeadline}
 
 ${reviewContentEmoji} ${input.reviewContent}
+
+${hashTags}
   `
 
   return post
@@ -34,7 +37,8 @@ export const reverseParseReviewPost = (reviewPost: string): ParseReivewPostInput
   const mediaDescription = lines[3]
   const reviewRating = lines[5].split(' ')[1].split('🟣').length - 1
   const reviewHeadline = lines[7].split('📌')[1].trim()
-  const reviewContent = lines.slice(9).join('\n')
+  const reviewContent = lines.slice(9, lines.length - 1).join('\n')
+  const hashTags = lines[lines.length - 1].split(' ').filter((tag) => tag.startsWith('#'))
 
   return {
     mediaName,
@@ -45,5 +49,6 @@ export const reverseParseReviewPost = (reviewPost: string): ParseReivewPostInput
     reviewHeadline,
     reviewContent,
     mediaType,
+    hashTags,
   }
 }

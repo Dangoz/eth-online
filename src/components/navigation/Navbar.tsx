@@ -8,7 +8,7 @@ const Navbar: React.FC = () => {
 
   useEffect(() => {
     document.addEventListener('scroll', async () => {
-      window.scrollY >= 30 ? setIsTop(false) : setIsTop(true)
+      window.scrollY >= 45 ? setIsTop(false) : setIsTop(true)
     })
   }, [])
 
@@ -16,9 +16,8 @@ const Navbar: React.FC = () => {
     <>
       <div
         className={`z-50 w-[100%] h-[64px] p-4 top-0 flex justify-between items-center   
-        ${!isTop ? ` bg-[rgba(29,29,31,0.7)] ${CustomStyle.blurs} sticky ` : ` absolute `} ${
-          CustomStyle.blurTransition
-        }`}
+        ${!isTop ? `${CustomStyle.blurs} sticky bg-bgBlue bg-opacity-50` : ` relative bg-bgBlue`} 
+          ${CustomStyle.blurTransition}`}
       >
         <Menu />
         <RightPanel />

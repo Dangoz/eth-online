@@ -55,37 +55,35 @@ const LensSignInModal: React.FC<LensSignInModalProps> = ({ open, onClose, verify
 
   return (
     <>
-      <div>
-        <Modal
-          open={open}
-          onClose={() => {
-            setIsLoading(false)
-            onClose()
-          }}
-        >
-          <Modal.Body>
-            <div className="w-full flex justify-center p-5">
-              <Button
-                color={'success'}
-                icon={<DocumentIcon />}
-                size="sm"
-                bordered
-                className={'h-[40px] bg-transparent border'}
-                disabled={isLoading}
-                onPress={handleSignInLens}
-              >
-                {!isLoading && (
-                  <div className="w-5 h-5 flex justify-center fill-lensLime">
-                    <LensIcon />
-                  </div>
-                )}
-                {isLoading && <Loading color={'currentColor'} size="sm" />}
-                <span className="ml-2">Sign in with Lens</span>
-              </Button>
-            </div>
-          </Modal.Body>
-        </Modal>
-      </div>
+      <Modal
+        open={open}
+        onClose={() => {
+          setIsLoading(false)
+          onClose()
+        }}
+      >
+        <Modal.Body>
+          <div className="w-full flex justify-center p-5">
+            <Button
+              color={'success'}
+              icon={<DocumentIcon />}
+              size="sm"
+              bordered
+              className={'h-[40px] bg-transparent border'}
+              disabled={isLoading}
+              onPress={handleSignInLens}
+            >
+              {!isLoading && (
+                <div className="w-5 h-5 flex justify-center fill-lensLime">
+                  <LensIcon />
+                </div>
+              )}
+              {isLoading && <Loading color={'currentColor'} size="sm" />}
+              <span className="ml-2">Sign in with Lens</span>
+            </Button>
+          </div>
+        </Modal.Body>
+      </Modal>
     </>
   )
 }

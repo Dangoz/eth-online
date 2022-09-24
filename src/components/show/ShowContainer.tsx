@@ -8,6 +8,7 @@ import ReviewModal from '../review/ReviewModal'
 import WorldIDModal from '../navigation/WorldIDModal'
 import CustomStyle from '@/styles/custom.module.css'
 import ShowInfo from './ShowInfo'
+import Spinner from '../ui/Spinner'
 
 const ShowContainer: React.FC<{ media: Media }> = ({ media }) => {
   const [showReviewModal, setShowReviewModal] = useState(false)
@@ -25,32 +26,18 @@ const ShowContainer: React.FC<{ media: Media }> = ({ media }) => {
     <>
       <div>
         <div className="relative">
+          {/* backdrop img */}
           <img
             src={tmdbImagePrefixFull + (media.backdrop_path || media.poster_path)}
             alt="Cover Image"
-            className="w-full h-[80vh] object-cover backdrop-blur-2xl"
+            className="w-full h-[80vh] object-cover backdrop-blur-2xl z-10"
           />
           {/* background img blur cover  */}
-          <div className={`absolute top-0 left-0 w-full h-[80vh] bg-black bg-opacity-50`} />
-          <ShowInfo media={media} />
-        </div>
-
-        <div className="flex justify-center w-full flex-col items-center">
-          <Button
-            color={'gradient'}
-            className="gradientBG h-[44px] w-[99px] text-[16px] text-[black]"
-            onPress={handleReview}
-          >
-            Review
-          </Button>
-          <br />
-          <Button
-            color={'gradient'}
-            className="gradientBG h-[44px] w-[99px] text-[16px] text-[black]"
-            onPress={handleFavorite}
-          >
-            Favorite
-          </Button>
+          <div className={`absolute top-0 left-0 w-full h-[80vh] bg-black bg-opacity-75 z-20`} />
+          {/* show info */}
+          <div className={`absolute top-0 left-0 w-full h-[80vh] z-30`}>
+            <ShowInfo media={media} handleReview={handleReview} handleFavorite={handleFavorite} />
+          </div>
         </div>
       </div>
 

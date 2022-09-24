@@ -5,8 +5,8 @@ const RatingStar: React.FC = () => {
         <path
           d="M102 3.57215L125.461 66.3704C126.337 68.7158 128.578 70.2705 131.082 70.2705H200.925L146.921 110.356C144.874 111.876 144.01 114.523 144.768 116.958L164.219 179.433L105.198 142.261C103.243 141.03 100.757 141.03 98.8025 142.261L39.7814 179.433L59.2317 116.958C59.9896 114.523 59.1263 111.876 57.0791 110.356L3.075 70.2705H72.9183C75.422 70.2705 77.6626 68.7158 78.5388 66.3703L102 3.57215Z"
           stroke="url(#paint0_linear_377_6158)"
-          stroke-opacity="0.8"
-          stroke-width="6"
+          strokeOpacity="0.8"
+          strokeWidth="6"
         />
         <defs>
           <linearGradient
@@ -17,9 +17,9 @@ const RatingStar: React.FC = () => {
             y2="106.588"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#BBF7D0" />
-            <stop offset="0.421873" stop-color="#7DD3FC" />
-            <stop offset="0.82813" stop-color="#C084FC" />
+            <stop stopColor="#BBF7D0" />
+            <stop offset="0.421873" stopColor="#7DD3FC" />
+            <stop offset="0.82813" stopColor="#C084FC" />
           </linearGradient>
         </defs>
       </svg>

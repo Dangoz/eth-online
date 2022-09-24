@@ -28,8 +28,6 @@ const ShowContainer: React.FC<{ media: Media }> = ({ media }) => {
           className="w-full h-[60vh] object-cover"
         />
 
-        {/* <ShowReviews />  */}
-
         <div className="flex justify-center w-full flex-col items-center">
           <Button
             color={'gradient'}

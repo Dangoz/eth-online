@@ -33,8 +33,6 @@ const RightPanel: React.FC = () => {
   return (
     <>
       <div className="flex justify-end items-center gap-5">
-        <SearchBar />
-
         <div className="flex justify-center items-center gap-5 w-[220px]">
           {!isConnected ? (
             <Button

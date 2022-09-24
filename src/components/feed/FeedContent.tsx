@@ -1,6 +1,5 @@
-import React from 'react'
+import { useEffect } from 'react'
 import type { LensPost } from '@/types/lens'
-// import StackGrid from 'react-stack-grid'
 import ReviewCard from '@/components/review/ReviewCard'
 
 interface FeedContentProps {
@@ -10,9 +9,7 @@ interface FeedContentProps {
 const FeedContent: React.FC<FeedContentProps> = ({ reviews }) => {
   return (
     <>
-      {/* {JSON.stringify(reviews[0], null, 2)} */}
-
-      <div className="flex flex-col">
+      <div className="gap-5 p-2 columns-[400px]">
         {reviews.map((review, index) => (
           <ReviewCard key={index} review={review} />
         ))}

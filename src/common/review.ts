@@ -40,8 +40,11 @@ export const reverseParseReviewPost = (reviewPost: string): ParseReivewPostInput
   const mediaDescription = lines[3]
   const reviewRating = lines[5].split(' ')[1].split('🟣').length - 1
   const reviewHeadline = lines[7].split('📌')[1].trim()
-  const reviewContent = lines.slice(9, lines.length - 1).join('\n')
-  const hashTags = lines[lines.length - 1]
+  const reviewContent = lines
+    .slice(9, lines.length - 2)
+    .join('\n')
+    .split('📝')[1]
+  const hashTags = lines[lines.length - 2]
     .split(' ')
     .filter((tag) => tag.startsWith('#'))
     .map((tag) => tag.slice(1))

@@ -22,10 +22,10 @@ const StarRating: React.FC<StarRatingProps> = ({
       <>
         <div className="flex items-center">
           {[...Array(totalRating)].map((_, index) => (
-            <>
+            <div key={index}>
               {index + 1 > rating && index + 1 - rating < 1 && (
                 <SolidStarIcon
-                  className="w-6 h-6 text-titlePurple"
+                  className="w-4 h-4 text-titlePurple"
                   style={{
                     clipPath: `polygon(0 0, ${100 - (index + 1 - rating) * 100}% 0, ${
                       100 - (index + 1 - rating) * 100
@@ -34,12 +34,12 @@ const StarRating: React.FC<StarRatingProps> = ({
                 />
               )}
 
-              {index + 1 <= rating && <SolidStarIcon className="w-6 h-6 text-titlePurple" />}
+              {index + 1 <= rating && <SolidStarIcon className="w-4 h-4 text-titlePurple" />}
 
               {index + 1 > rating && index + 1 - rating >= 1 && (
-                <OutlineStarIcon className="w-6 h-6 text-titlePurple" />
+                <OutlineStarIcon className="w-4 h-4 text-titlePurple" />
               )}
-            </>
+            </div>
           ))}
         </div>
       </>

@@ -31,17 +31,17 @@ const ShowInfo: React.FC<ShowInfoProps> = ({ media, handleReview, handleFavorite
         {/* middle button options */}
         <div className="h-[7vh] flex justify-start items-start gap-5 pl-5 pt-2">
           <div
-            className="w-[40px] h-[40px] gradientBG flex justify-center items-center rounded-[100px] cursor-pointer"
+            className="w-[44px] h-[44px] gradientBG flex justify-center items-center rounded-[100px] cursor-pointer"
             onClick={handleFavorite}
           >
-            <HeartIcon className="w-[16px] h-[16px]" />
+            <HeartIcon className="w-[20px] h-[20px]" />
           </div>
 
           <div
-            className="w-[40px] h-[40px] gradientBG flex justify-center items-center rounded-[100px] cursor-pointer"
+            className="w-[44px] h-[44px] gradientBG flex justify-center items-center rounded-[100px] cursor-pointer"
             onClick={handleReview}
           >
-            <PencilSquareIcon className="w-[16px] h-[16px]" />
+            <PencilSquareIcon className="w-[20px] h-[20px]" />
           </div>
         </div>
 
@@ -53,6 +53,14 @@ const ShowInfo: React.FC<ShowInfoProps> = ({ media, handleReview, handleFavorite
               src={tmdbImagePrefixPoster + (media.poster_path || media.backdrop_path)}
               className="h-full rounded-l-[8px]"
             />
+            <div className="h-full">
+              {/* <iframe
+                className='w-[400px] h-[26vh] border-collapse rounded-r-[8px]'
+                src={`https://www.youtube.com/embed/6zkM-oniRQ0?showinfo=0&modestbranding=1&rel=0&autoplay=1&mute=1&controls=0&loop=1&playlist=6zkM-oniRQ0`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen={true}
+              /> */}
+            </div>
           </div>
 
           <div className="relative flex justify-center items-center">

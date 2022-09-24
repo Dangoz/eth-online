@@ -6,6 +6,7 @@ import { Image } from '@nextui-org/react'
 import { Button } from '@nextui-org/react'
 import ReviewModal from '../review/ReviewModal'
 import WorldIDModal from '../navigation/WorldIDModal'
+import CustomStyle from '@/styles/custom.module.css'
 
 const ShowContainer: React.FC<{ media: Media }> = ({ media }) => {
   const [showReviewModal, setShowReviewModal] = useState(false)
@@ -22,11 +23,15 @@ const ShowContainer: React.FC<{ media: Media }> = ({ media }) => {
   return (
     <>
       <div>
-        <img
-          src={tmdbImagePrefixFull + (media.backdrop_path || media.poster_path)}
-          alt="Cover Image"
-          className="w-full h-[60vh] object-cover"
-        />
+        <div className="relative">
+          <img
+            src={tmdbImagePrefixFull + (media.backdrop_path || media.poster_path)}
+            alt="Cover Image"
+            className="w-full h-[80vh] object-cover backdrop-blur-2xl"
+          />
+          {/* background img blur cover  */}
+          <div className={`absolute top-0 left-0 w-full h-[80vh] bg-black bg-opacity-50`} />
+        </div>
 
         <div className="flex justify-center w-full flex-col items-center">
           <Button

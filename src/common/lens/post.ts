@@ -46,7 +46,7 @@ export const EXPLORE_LATEST_POSTS = gql`
         sortCriteria: LATEST
         publicationTypes: [POST]
         sources: ["cineplanet"]
-        limit: 1
+        limit: 10
         noRandomize: false
         cursor: $cursor
       }

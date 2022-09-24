@@ -1,7 +1,15 @@
-interface ShowInfoProps {}
+import { Media } from '@/types/tmdb'
 
-const ShowInfo: React.FC = () => {
-  return <></>
+interface ShowInfoProps {
+  media: Media
+}
+
+const ShowInfo: React.FC<ShowInfoProps> = ({ media }) => {
+  return (
+    <>
+      <div>lala</div>
+    </>
+  )
 }
 
 export default ShowInfo

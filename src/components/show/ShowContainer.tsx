@@ -7,6 +7,7 @@ import { Button } from '@nextui-org/react'
 import ReviewModal from '../review/ReviewModal'
 import WorldIDModal from '../navigation/WorldIDModal'
 import CustomStyle from '@/styles/custom.module.css'
+import ShowInfo from './ShowInfo'
 
 const ShowContainer: React.FC<{ media: Media }> = ({ media }) => {
   const [showReviewModal, setShowReviewModal] = useState(false)
@@ -31,6 +32,7 @@ const ShowContainer: React.FC<{ media: Media }> = ({ media }) => {
           />
           {/* background img blur cover  */}
           <div className={`absolute top-0 left-0 w-full h-[80vh] bg-black bg-opacity-50`} />
+          <ShowInfo media={media} />
         </div>
 
         <div className="flex justify-center w-full flex-col items-center">

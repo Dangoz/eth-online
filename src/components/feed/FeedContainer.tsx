@@ -63,7 +63,7 @@ const FeedContainer: React.FC = () => {
           </Button>
         )}
 
-        {feedResult.fetching && <Loading type="default" size="md" />}
+        {feedResult.fetching && <Loading type="default" size="lg" color={'secondary'} />}
       </div>
     </>
   )

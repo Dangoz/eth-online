@@ -30,7 +30,7 @@ const Menu: React.FC = () => {
   return (
     <div className="flex justify-start items-center gap-8">
       <Link href={'/'} passHref>
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center min-w-[200px]">
           <Image
             width={200}
             height={45}

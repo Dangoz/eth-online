@@ -33,25 +33,25 @@ const RightPanel: React.FC = () => {
   return (
     <>
       <div className="flex justify-end items-center gap-5">
-        <div className="flex justify-center items-center gap-5 w-[220px]">
-          {!isConnected ? (
-            <Button
-              color={'gradient'}
-              shadow={true}
-              size="xs"
-              onPress={openConnectModal}
-              className={`gradientBG h-[44px] w-[99px] text-[16px] text-[black] z-10`}
-            >
-              Connect
-            </Button>
-          ) : (
-            <>
-              {/* <ConnectionStatus /> */}
-              <LensStatus />
-              {/* <WorldCoinStatus /> */}
-            </>
-          )}
-        </div>
+        {!isConnected ? (
+          <Button
+            color={'gradient'}
+            shadow={true}
+            size="xs"
+            onPress={openConnectModal}
+            className={`gradientBG h-[44px] w-[99px] text-[16px] text-[black] z-10`}
+          >
+            Connect
+          </Button>
+        ) : (
+          <>
+            {/* <ConnectionStatus /> */}
+            {/* <ConnectButton/> */}
+            <LensStatus />
+            {/* <WorldCoinStatus /> */}
+            <ConnectButton />
+          </>
+        )}
       </div>
     </>
   )

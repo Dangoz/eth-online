@@ -19,8 +19,12 @@ const Navbar: React.FC = () => {
         ${!isTop ? `${CustomStyle.blurs} sticky bg-bgBlue bg-opacity-50` : ` relative bg-bgBlue`} 
           ${CustomStyle.blurTransition}`}
       >
-        <Menu />
-        <RightPanel />
+        <div>
+          <Menu />
+        </div>
+        <div>
+          <RightPanel />
+        </div>
       </div>
     </>
   )

@@ -15,7 +15,7 @@ const SearchBar: React.FC = () => {
   return (
     <>
       <div
-        className={`h-[44px] w-[300px] rounded-[12px] flex items-center justify-between  
+        className={`h-[44px] w-[450px] rounded-[12px] flex items-center justify-between  
         cursor-text z-50 ${isInputFocused ? 'bg-white' : 'bg-bgGrey'} `}
         placeholder="Search"
       >

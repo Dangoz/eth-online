@@ -22,14 +22,14 @@ const SearchShowCard: React.FC<{ show: TmdbShow }> = ({ show }) => {
     <div onClick={handleShowClick}>
       <div className="w-full flex items-center justify-start p-1 gap-2 cursor-pointer hover:bg-bgGrey">
         <div>
-          <Image width={40} height={60} src={thumbnailURL} alt="Default Image" placeholder="blur" />
+          <Image width={80} height={120} src={thumbnailURL} alt="Default Image" placeholder="blur" />
         </div>
         <div>
           <div>
-            {show.title || show.name}{' '}
+            <span className="text-[15px] font-bold">{show.title || show.name} </span>
             <span className=" text-gray-400">{`(${getMediaReleaseDate(show)?.slice(0, 4)})`}</span>
           </div>
-          <div className=" text-[11px]">{show.overview && `${show.overview.slice(0, 80)}...`}</div>
+          <div className=" text-[11px]">{show.overview && `${show.overview.slice(0, 100)}...`}</div>
         </div>
       </div>
       <div className="w-[100%] h-[1px] bg-dividerGrey" />

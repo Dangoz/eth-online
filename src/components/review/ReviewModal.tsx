@@ -9,7 +9,7 @@ import { parseReviewPost } from '@/common/review'
 import type { IPFSMetadataInput } from '@/types/nftport'
 import type { LensPublicationMetadata } from '@/types/lens'
 import { PublicationMainFocus } from '@/types/generated/types'
-import { LENS_APP_ID, LENSHUB_MUMBAI_PROXY_ADDRESS } from '@/common/constants'
+import { LENS_APP_ID, LENSHUB_PROXY_ADDRESS } from '@/common/constants'
 import lensHubAbi from '@/abis/LensHubProxy.json'
 import { nanoid } from 'nanoid'
 import useUser from '@/hooks/useUser'
@@ -46,7 +46,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media }) => {
 
   const { writeAsync } = useContractWrite({
     mode: 'recklesslyUnprepared',
-    addressOrName: LENSHUB_MUMBAI_PROXY_ADDRESS,
+    addressOrName: LENSHUB_PROXY_ADDRESS,
     contractInterface: lensHubAbi,
     functionName: 'postWithSig',
     onError: (error) => handleError(error),
@@ -107,7 +107,8 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media }) => {
         return handleError(new Error('Failed to upload metadata'))
       }
       const metadata_uri = ipfsMetadataOutput.metadata_uri
-      const metadataURL = parseIpfs(metadata_uri)
+      // const metadataURL = parseIpfs(metadata_uri)
+      const metadataURL = metadata_uri
       console.log('metadataURL', metadataURL)
 
       const result = await createPostTypedData(lensProfile.id, metadataURL)

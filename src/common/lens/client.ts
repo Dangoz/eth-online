@@ -1,10 +1,10 @@
 import { createClient } from 'urql'
 import { LENS_API_URL, LENS_TESTNET_API_URL } from '../endpoints'
 import { LENS_AUTH } from './authentication'
+import { IS_MAINNET } from '@/common/constants'
 
 const LensUrqlClient = createClient({
-  url: LENS_API_URL,
-  // url: LENS_TESTNET_API_URL,
+  url: IS_MAINNET ? LENS_API_URL : LENS_TESTNET_API_URL,
 
   fetchOptions: () => {
     const accessLocal = typeof window !== 'undefined' ? localStorage.getItem(LENS_AUTH.ACCESS) : ''

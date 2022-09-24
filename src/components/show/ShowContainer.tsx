@@ -41,7 +41,9 @@ const ShowContainer: React.FC<{ media: Media }> = ({ media }) => {
         </div>
       </div>
 
-      <ReviewModal open={showReviewModal} onClose={() => setShowReviewModal(false)} media={media} />
+      {showReviewModal && (
+        <ReviewModal open={showReviewModal} onClose={() => setShowReviewModal(false)} media={media} />
+      )}
       <WorldIDModal open={showWorldIDModal} onClose={() => setShowWorldIDModal(false)} />
     </>
   )

@@ -34,3 +34,12 @@ export const handleSuccess = (message: string) => {
     closeOnClick: false,
   })
 }
+
+export const handleInfo = (message: string) => {
+  toast(message, {
+    position: 'top-right',
+    autoClose: 5000,
+    icon: '🔔',
+    theme: 'dark',
+  })
+}

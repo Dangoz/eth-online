@@ -1,6 +1,6 @@
 import { Modal, Button, Loading, Spacer, Textarea, Input } from '@nextui-org/react'
 import type { Media } from '@/types/tmdb'
-import { handleError, handleSuccess, notifyErrorMessage } from '@/common/notification'
+import { handleError, handleSuccess, notifyErrorMessage, handleInfo } from '@/common/notification'
 import { tmdbImagePrefixPoster, getMediaTitle, getMediaReleaseDate } from '@/common/tmdb'
 import { useEffect, useState } from 'react'
 import StarRating from '@/components/ui/StarRating'
@@ -20,6 +20,7 @@ import { utils as ethersUtils } from 'ethers'
 import { useSignTypedData, useContractWrite } from 'wagmi'
 import omit from 'lodash.omit'
 import { broadcastRelay } from '@/common/lens/relay'
+import { CheckBadgeIcon } from '@heroicons/react/24/solid'
 
 interface ReviewModalProps {
   open: boolean
@@ -34,6 +35,10 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media }) => {
   const [rating, setRating] = useState(0)
   const [reviewTitle, setReviewTitle] = useState('')
   const [reviewContent, setReviewContent] = useState('')
+  const [isPublishing, setIsPublishing] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
+  const [isAwaitingSign, setIsAwaitingSign] = useState(false)
+  const [isFinalizing, setIsFinalizing] = useState(false)
 
   const {
     isError: signingError,
@@ -52,12 +57,35 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media }) => {
     onError: (error) => handleError(error),
   })
 
+  const checkEmptyFields = () => {
+    if (!rating) {
+      return handleInfo('Please rate the movie')
+    }
+
+    if (reviewTitle.trim() === '') {
+      return handleInfo('Please add a title for your review')
+    }
+
+    if (reviewContent.trim() === '') {
+      return handleInfo('Please add some content to your review')
+    }
+    return true
+  }
+
   const handleReviewSubmit = async () => {
     try {
       if (!lensProfile) {
         return
       }
+      if (!checkEmptyFields()) {
+        return
+      }
 
+      // initiate publishing process
+      setIsPublishing(true)
+
+      // parseReview, upload data to IPFS, then upload metadataURL to Lens
+      setIsUploading(true)
       const reviewPost = parseReviewPost({
         mediaName: getMediaTitle(media),
         mediaYear: getMediaReleaseDate(media) || '',
@@ -119,6 +147,8 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media }) => {
       console.log('typedData', typedData)
       console.log('typedId', typedId)
 
+      // sign typed data
+      setIsAwaitingSign(true)
       const signature = await signTypedDataAsync({
         domain: omit(typedData.domain, '__typename'),
         types: omit(typedData.types, '__typename'),
@@ -126,6 +156,8 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media }) => {
       })
       console.log('signature', signature)
 
+      // finalize transaction through relay or contract
+      setIsFinalizing(true)
       const relayResult = await broadcastRelay(typedId, signature)
       console.log('relayResult', relayResult)
       if (relayResult) {
@@ -156,71 +188,126 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media }) => {
         handleSuccess('Review Posted Successfully')
         onClose()
       }
-    } catch {}
+    } catch {
+      onClose()
+    }
   }
 
   return (
     <>
       <Modal open={open} onClose={onClose} closeButton blur width="500px" className="bg-bgBlue">
         <Modal.Body>
-          <div className="flex flex-col w-full h-full gap-3">
-            {/* media info card */}
-            <div className="flex justify-start gap-3 mb-2">
-              <img
-                alt="poster"
-                src={tmdbImagePrefixPoster + (media.poster_path || media.backdrop_path)}
-                className="w-[80px] h-[120px] object-cover"
-              />
-              <div className="h-[120px] overflow-y-scroll">
-                <div className="flex gap-2 font-bold">
-                  {getMediaTitle(media)}
-                  <span className="text-slate-500">{`(${getMediaReleaseDate(media)?.slice(0, 4)})`}</span>
+          {!isPublishing && (
+            <div className="flex flex-col w-full h-full gap-3">
+              {/* media info card */}
+              <div className="flex justify-start gap-3 mb-2">
+                <img
+                  alt="poster"
+                  src={tmdbImagePrefixPoster + (media.poster_path || media.backdrop_path)}
+                  className="w-[80px] h-[120px] object-cover"
+                />
+                <div className="h-[120px] overflow-y-scroll">
+                  <div className="flex gap-2 font-bold">
+                    {getMediaTitle(media)}
+                    <span className="text-slate-500">{`(${getMediaReleaseDate(media)?.slice(0, 4)})`}</span>
+                  </div>
+                  <Spacer y={0.25} />
+                  <div className="text-[12px]">{media.overview}</div>
                 </div>
-                <Spacer y={0.25} />
-                <div className="text-[12px]">{media.overview}</div>
+              </div>
+
+              {/* review form */}
+              <div className="font-semibold">YOUR RATING</div>
+              <div>
+                <div className="flex justify-start items-center gap-3">
+                  <StarRating rating={rating} totalRating={10} onChange={(rating) => setRating(rating)} />
+                  <div className="text-titlePurple font-bold text-[20px]">{rating}</div>
+                </div>
+                <Divider />
+              </div>
+
+              {/* <Divider /> */}
+
+              <div className="font-semibold">YOUR REVIEW</div>
+
+              <Input
+                aria-label="Write a headline for your review here..."
+                bordered
+                placeholder="Write a headline for your review here..."
+                color="secondary"
+                value={`${reviewTitle}`}
+                onChange={(e) => setReviewTitle(e.target.value)}
+              />
+
+              <Textarea
+                aria-label="Write your review here..."
+                bordered
+                maxRows={12}
+                color="secondary"
+                placeholder="Write your review here..."
+                value={reviewContent}
+                onChange={(e) => setReviewContent(e.target.value)}
+              />
+
+              {/* button options */}
+              <div className="flex justify-end">
+                <Button onPress={handleReviewSubmit} className="w-[50%] h-[44px] text-[16px] text-white bg-titlePurple">
+                  Submit Review
+                </Button>
               </div>
             </div>
+          )}
 
-            {/* review form */}
-            <div className="font-semibold">YOUR RATING</div>
-            <div>
-              <div className="flex justify-start items-center gap-3">
-                <StarRating rating={rating} totalRating={10} onChange={(rating) => setRating(rating)} />
-                <div className="text-titlePurple font-bold text-[20px]">{rating}</div>
+          {/* publication transition visual */}
+          {isPublishing && (
+            <div className="flex flex-col w-full h-full gap-3">
+              {/* uploading review */}
+              <div className="flex justify-start items-center gap-10 p-3 pl-10">
+                <div className="w-[50px] h-[50px] flex justify-center items-center">
+                  {!isUploading ? (
+                    <div className="text-[18px] w-[40px] h-[40px] rounded-[99px] flex items-center justify-center border border-titlePurple">
+                      1
+                    </div>
+                  ) : !isAwaitingSign && !isFinalizing ? (
+                    <Loading color={'secondary'} />
+                  ) : (
+                    <CheckBadgeIcon className="fill-titlePurple" />
+                  )}
+                </div>
+                <div className="font-semibold text-[18px]">Uploading Review</div>
               </div>
-              <Divider />
+
+              {/* awating signature */}
+              <div className="flex justify-start items-center gap-10 p-3 pl-10">
+                <div className="w-[50px] h-[50px] flex justify-center items-center">
+                  {!isAwaitingSign ? (
+                    <div className="text-[18px] w-[40px] h-[40px] rounded-[99px] flex items-center justify-center border border-titlePurple">
+                      2
+                    </div>
+                  ) : !isFinalizing ? (
+                    <Loading color={'secondary'} />
+                  ) : (
+                    <CheckBadgeIcon className="fill-titlePurple" />
+                  )}
+                </div>
+                <div className="font-semibold text-[18px]">Awaiting Signature</div>
+              </div>
+
+              {/* finalizing publication */}
+              <div className="flex justify-start items-center gap-10 p-3 pl-10">
+                <div className="w-[50px] h-[50px] flex justify-center items-center">
+                  {!isFinalizing ? (
+                    <div className="text-[18px] w-[40px] h-[40px] rounded-[99px] flex items-center justify-center border border-titlePurple">
+                      3
+                    </div>
+                  ) : (
+                    <Loading color={'secondary'} />
+                  )}
+                </div>
+                <div className="font-semibold text-[18px]">Finalizing Publication</div>
+              </div>
             </div>
-
-            {/* <Divider /> */}
-
-            <div className="font-semibold">YOUR REVIEW</div>
-
-            <Input
-              aria-label="Write a headline for your review here..."
-              bordered
-              placeholder="Write a headline for your review here..."
-              color="secondary"
-              value={`${reviewTitle}`}
-              onChange={(e) => setReviewTitle(e.target.value)}
-            />
-
-            <Textarea
-              aria-label="Write your review here..."
-              bordered
-              maxRows={12}
-              color="secondary"
-              placeholder="Write your review here..."
-              value={reviewContent}
-              onChange={(e) => setReviewContent(e.target.value)}
-            />
-
-            {/* button options */}
-            <div className="flex justify-end">
-              <Button onPress={handleReviewSubmit} className="w-[50%] h-[44px] text-[16px] text-white bg-titlePurple">
-                Submit Review
-              </Button>
-            </div>
-          </div>
+          )}
         </Modal.Body>
       </Modal>
     </>

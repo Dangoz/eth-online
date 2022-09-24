@@ -12,12 +12,12 @@ const menuOptions: MenuOptionProps[] = [
       Router.push('/')
     },
   },
-  {
-    title: 'Explore',
-    onClick: () => {
-      Router.push('/explore')
-    },
-  },
+  // {
+  //   title: 'Explore',
+  //   onClick: () => {
+  //     Router.push('/explore')
+  //   },
+  // },
   // {
   //   title: 'Leaderboard',
   //   onClick: () => {

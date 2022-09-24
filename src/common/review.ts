@@ -9,7 +9,10 @@ export const parseReviewPost = (input: ParseReivewPostInput): string => {
   const emptyStars = '⚪'.repeat(10 - input.reviewRating)
   const reviewHeadlineEmoji = '📌'
   const reviewContentEmoji = '📝'
-  const hashTags = input.hashTags.map((tag) => `#${tag}`).join(' ')
+  const hashTags = input.hashTags
+    .map((tag) => tag.replace(/[^a-zA-Z0-9]/g, ''))
+    .map((tag) => `#${tag}`)
+    .join(' ')
 
   const post = `
 ${mediaType} Review - ${input.mediaName} (${input.mediaYear.slice(0, 4)}) 

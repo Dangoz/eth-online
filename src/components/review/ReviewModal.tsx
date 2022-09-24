@@ -106,9 +106,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media }) => {
       if (!ipfsMetadataOutput) {
         return handleError(new Error('Failed to upload metadata'))
       }
-      const metadata_uri = ipfsMetadataOutput.metadata_uri
-      // const metadataURL = parseIpfs(metadata_uri)
-      const metadataURL = metadata_uri
+      const metadataURL = ipfsMetadataOutput.metadata_uri
       console.log('metadataURL', metadataURL)
 
       const result = await createPostTypedData(lensProfile.id, metadataURL)

@@ -1,4 +1,11 @@
-import type { ProfileMedia, PublicationMetadataV2Input } from '@/types/generated/types'
+import type {
+  ProfileMedia,
+  PublicationMetadataV2Input,
+  BroadcastRequest,
+  MetadataOutput,
+  MediaSet,
+  PublicationMainFocus,
+} from '@/types/generated/types'
 
 export type LensSearchProfile = {
   id: string
@@ -24,3 +31,29 @@ export type LensProfile = {
 }
 
 export type LensPublicationMetadata = PublicationMetadataV2Input
+
+export type LensPost = {
+  id: string
+  appId: string
+  createdAt: Date
+  profile: {
+    id: string
+    name?: string
+    handle: string
+    picture?: ProfileMedia
+  }
+  metadata: {
+    name: string
+    description: string
+    content: string
+    image: string
+    media: MediaSet[]
+    tags: string[]
+    mainContentFocus: PublicationMainFocus
+  }
+  stats: {
+    totalAmountOfComments: number
+    totalAmountOfCollects: number
+    totalUpvotes: number
+  }
+}

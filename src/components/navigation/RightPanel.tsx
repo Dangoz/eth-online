@@ -5,7 +5,7 @@ import { useEnsName, useEnsAvatar, chain } from 'wagmi'
 import SearchBar from '../search/SearchBar'
 import ConnectionStatus from './ConnectionStatus'
 import LensStatus from './LensStatus'
-import WorldCoinStatus from './WorldCoinStatus'
+import WorldCoinStatus from './WorldIdStatus'
 
 const RightPanel: React.FC = () => {
   const { openConnectModal } = useConnectModal()

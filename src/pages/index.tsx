@@ -1,11 +1,10 @@
 import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
+import FeedContainer from '@/components/feed/FeedContainer'
 
 const Home: NextPage = () => {
   return (
     <>
-      <div className="ml-20 h-[2000px]">ruaa</div>
+      <FeedContainer />
     </>
   )
 }

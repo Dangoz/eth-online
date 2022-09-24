@@ -48,7 +48,7 @@ const SearchResult: React.FC<SearchProps> = ({ searchText }) => {
     setIsShowsLoading(true)
     const results = await tmdb.search(query, 1)
     const shows = results.filter((show) => show.media_type === 'movie' || show.media_type === 'tv')
-    setShows(shows.slice(0, 5))
+    setShows(shows.slice(0, 4))
     setIsShowsLoading(false)
   }, [query])
 

@@ -47,7 +47,7 @@ const ShowInfo: React.FC<ShowInfoProps> = ({ media, handleReview, handleFavorite
 
         {/* bottom card & rating */}
         <div className="h-[28vh] bg-green-0 flex items-center justify-between pl-1 pr-10">
-          <div className="w-[400px] h-[26vh] rounded-[8px] bg-black flex justify-start items-center">
+          <div className="h-[26vh] rounded-[8px] bg-black flex justify-start items-center">
             <img
               alt="poster"
               src={tmdbImagePrefixPoster + (media.poster_path || media.backdrop_path)}

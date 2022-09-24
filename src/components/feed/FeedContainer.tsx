@@ -74,6 +74,7 @@ const FeedContainer: React.FC = () => {
 
         {feedResult.fetching && <Loading type="default" size="lg" color={'secondary'} />}
       </div>
+      <Spacer y={2} />
     </>
   )
 }

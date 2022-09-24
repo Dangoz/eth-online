@@ -34,7 +34,7 @@ ${hashTags}
 // uno reverse ~
 export const reverseParseReviewPost = (reviewPost: string): ParseReivewPostInput => {
   const lines = reviewPost.split('\n')
-  const mediaType = lines[0].includes('Movie') ? 'movie' : 'tv'
+  const mediaType = lines[1].includes('Movie') ? 'movie' : 'tv'
   const mediaName = lines[1].split('-')[1].split('(')[0].trim()
   const mediaYear = lines[1].split('(')[1].split(')')[0].trim()
   const mediaDescription = lines[3]

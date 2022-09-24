@@ -7,6 +7,8 @@ import { handleError, notifyErrorMessage } from '@/common/notification'
 import type { PaginatedResultInfo } from '@/types/generated/types'
 import { Button, Spacer, Loading } from '@nextui-org/react'
 import useDebounce from '@/hooks/useDebounce'
+import Image from 'next/image'
+import blurURL from '@/common/blur'
 
 const FeedContainer: React.FC = () => {
   const [nextCursor, setNextCursor] = useState<string | null>(null)
@@ -51,7 +53,14 @@ const FeedContainer: React.FC = () => {
 
   return (
     <>
-      <div className="flex justify-center items-center h-[500px] w-full bg-bgGrey">WALLPAPER</div>
+      <Image
+        src="/home-cover.png"
+        alt="Default Cover"
+        placeholder="blur"
+        blurDataURL={blurURL}
+        width={1920}
+        height={600}
+      />
 
       <FeedContent reviews={reviews} />
 

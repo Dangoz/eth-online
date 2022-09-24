@@ -7,6 +7,7 @@ import dayjs from 'dayjs'
 import { parseIpfs } from '@/common/utils'
 import BackArrow from '@/components/icons/BackArrow'
 import StarRating from '@/components/ui/StarRating'
+import Router from 'next/router'
 
 interface ReviewcardProps {
   review: LensPost
@@ -31,14 +32,14 @@ const ReviewCard: React.FC<ReviewcardProps> = ({ review }) => {
     <>
       <div
         className="w-full rounded-[24px] bg-bgGrey flex flex-col justify-start border-[2px] border-white 
-         p-[24px] gap-2 mt-5 transition duration-150 ease-in-out"
+         p-[24px] gap-2 mt-5"
         style={{
           breakInside: 'avoid',
         }}
       >
         {/* creator */}
         <div className="flex justify-start items-center gap-3">
-          <div className="w-[50px] h-[50px] rounded-full gradientBG flex justify-center items-center">
+          <div className="w-[50px] h-[50px] rounded-full gradientBG flex justify-center items-center cursor-pointer primaryShadow">
             <img
               alt="avatar"
               className="w-[48px] h-[48px] rounded-full bg-bgBlue object-cover"
@@ -55,7 +56,12 @@ const ReviewCard: React.FC<ReviewcardProps> = ({ review }) => {
         {/* media info */}
         <div className="flex justify-start items-center gap-3 pl-3">
           <BackArrow />
-          <img alt="poster" className="w-[60px] h-[90px] object-cover" src={review.metadata.image} />
+          <img
+            alt="poster"
+            className="w-[60px] h-[90px] object-cover cursor-pointer hover:shadow-md hover:shadow-black"
+            src={review.metadata.image}
+            onClick={() => Router.push(`/show/${originalReview?.mediaType}/${review.metadata.tags[0]}`)}
+          />
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-1 font-semibold">
               <div>{originalReview?.mediaName}</div>

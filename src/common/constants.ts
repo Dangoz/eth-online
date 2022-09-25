@@ -9,6 +9,7 @@ export const LENSHUB_PROXY_ADDRESS = IS_MAINNET ? LENSHUB_POLYGON_PROXY_ADDRESS 
 
 // nftport
 export const NFTPORT_API_KEY = process.env.NEXT_PUBLIC_NFTPORT_API_KEY
+export const NFTPORT_CINEPLANET_CONTRACT = '0x805dfdf48bf78b8ee6005ac2a0f7bd351ff3007d'
 
 // tmdb
 export const TMDB_API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY

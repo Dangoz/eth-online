@@ -52,23 +52,23 @@ const ProfileContainer: React.FC = () => {
 
   return (
     <>
-      <div className="">
-        <Image
-          width={'100%'}
-          height={'310px'}
-          src={parseIpfs(cover)}
-          alt="Cover Image"
-          objectFit="cover"
-          className=" object-cover"
-        />
+      {/* <div className=""> */}
+      <Image
+        width={'100%'}
+        height={'310px'}
+        src={parseIpfs(cover)}
+        alt="Cover Image"
+        objectFit="cover"
+        className=" object-cover"
+      />
 
-        <div className="w-full h-full flex justify-center items-center">
-          <div className="flex flex-row w-[1100px]">
-            <ProfileLeftInfo profile={profile} avatar={avatar} />
-            <ProfileRightContent profile={profile} />
-          </div>
+      <div className="w-full h-full flex justify-center items-center">
+        <div className="flex flex-row w-[1100px]">
+          <ProfileLeftInfo profile={profile} avatar={avatar} />
+          <ProfileRightContent profile={profile} />
         </div>
       </div>
+      {/* </div> */}
     </>
   )
 }

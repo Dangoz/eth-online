@@ -80,3 +80,12 @@ export type MediaVideo = {
   published_at: Date
   key: string
 }
+
+export type FavoriteMetadata = {
+  mediaType: MediaType
+  mediaId: number
+  poster: string
+  name: string
+  overview: string
+  releaseDate: string
+}

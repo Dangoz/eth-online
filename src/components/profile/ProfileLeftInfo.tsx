@@ -70,7 +70,7 @@ const ProfileLeftInfo: React.FC<ProfileLeftInfoProps> = ({ profile, avatar }) =>
 
   return (
     <>
-      <div className="flex flex-col w-[300px] justify-center top-[-105px] relative gap-5 pl-2">
+      <div className="flex flex-col w-[300px] justify-center top-[-105px] relative gap-5 pl-2 h-full">
         {/* Gradient Avatar */}
         <div className="h-[210px] w-[210px] flex justify-center items-center rounded-[10px] bg-gradient-to-r from-gradientOne via-gradientTwo to-gradientThree">
           <img

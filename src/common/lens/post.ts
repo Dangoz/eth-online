@@ -1,5 +1,9 @@
 import { gql } from 'urql'
-import type { CreatePostBroadcastItemResult, CreatePublicPostRequest } from '@/types/generated/types'
+import type {
+  CreatePostBroadcastItemResult,
+  CreatePublicPostRequest,
+  PaginatedPublicationResult,
+} from '@/types/generated/types'
 import type { LensPost } from '@/types/lens'
 import LensUrqlClient from './client'
 import { handleError } from '../notification'
@@ -189,6 +193,58 @@ export const GET_POST_BY_TXHASH = gql`
   }
 `
 
+const GET_POSTS_BY_PROFILEID = gql`
+  query Publications($profileId: ProfileId!, $cursor: Cursor) {
+    publications(
+      request: { profileId: $profileId, publicationTypes: [POST], sources: ["cineplanet"], limit: 5, cursor: $cursor }
+    ) {
+      items {
+        __typename
+        ... on Post {
+          id
+          appId
+          createdAt
+          profile {
+            id
+            name
+            handle
+            picture {
+              ... on MediaSet {
+                original {
+                  url
+                }
+              }
+            }
+          }
+          metadata {
+            name
+            description
+            content
+            image
+            media {
+              original {
+                url
+              }
+            }
+            tags
+            mainContentFocus
+          }
+          stats {
+            totalAmountOfComments
+            totalAmountOfCollects
+            totalUpvotes
+          }
+        }
+      }
+      pageInfo {
+        prev
+        next
+        totalCount
+      }
+    }
+  }
+`
+
 export const GET_POST_BY_PROFILEID_AND_TAG = gql`
   query Publications($profileId: ProfileId!, $tag: [String!]) {
     publications(
@@ -303,4 +359,19 @@ export const getPostByProfileIdAndTag = async (profileId: string, tag: string): 
   }
 
   return data.publications.items[0] as LensPost
+}
+
+export const getPostsByProfileId = async (
+  profileId: string,
+  cursor?: string,
+): Promise<PaginatedPublicationResult | null> => {
+  const variables = { profileId, ...(cursor && { cursor }) }
+  const { data, error } = await LensUrqlClient.query(GET_POSTS_BY_PROFILEID, variables, {
+    requestPolicy: 'network-only',
+  }).toPromise()
+  if (error) {
+    handleError(error)
+    return null
+  }
+  return data.publications as PaginatedPublicationResult
 }

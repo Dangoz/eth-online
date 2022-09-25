@@ -6,12 +6,17 @@ import nftport from '@/common/nftPort'
 import type { FavoriteMetadata } from '@/types/tmdb'
 import useAddress from '@/hooks/useAddress'
 import Router from 'next/router'
+import { getPostsByProfileId } from '@/common/lens/post'
+import type { LensPost } from '@/types/lens'
+import ReviewCard from '@/components/review/ReviewCard'
 
 const tabs = ['Favorties', 'Reviews', 'Gallery', 'Stats']
 
 const ProfileRightContent: React.FC<{ profile: LensProfile | null }> = ({ profile }) => {
   const [activeTab, setActiveTab] = useState<string>(tabs[0])
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [favoriteNfts, setFavoriteNfts] = useState<FavoriteMetadata[]>([])
+  const [reviews, setReviews] = useState<LensPost[]>([])
 
   const getFavoriteNfts = useCallback(async () => {
     if (!profile) {
@@ -22,11 +27,25 @@ const ProfileRightContent: React.FC<{ profile: LensProfile | null }> = ({ profil
     setFavoriteNfts(metadata)
   }, [profile])
 
+  const getReviews = useCallback(async () => {
+    if (!profile) {
+      return
+    }
+    const posts = await getPostsByProfileId(profile.id)
+    const lensPosts = (posts?.items || []) as LensPost[]
+    setReviews(lensPosts)
+  }, [profile])
+
   useEffect(() => {
     if (activeTab === 'Favorties') {
       getFavoriteNfts()
+      return
     }
-  }, [activeTab, getFavoriteNfts])
+    if (activeTab === 'Reviews') {
+      getReviews()
+      return
+    }
+  }, [activeTab, getFavoriteNfts, getReviews])
 
   if (!profile) {
     return <></>
@@ -43,7 +62,13 @@ const ProfileRightContent: React.FC<{ profile: LensProfile | null }> = ({ profil
           ))}
         </div>
 
-        {activeTab === 'Favorties' && (
+        {isLoading && (
+          <div className="w-full flex justify-center items-center mt-10">
+            <Loading size="xl" />
+          </div>
+        )}
+
+        {activeTab === 'Favorties' && !isLoading && (
           <div className="h-[300px] w-full grid grid-cols-4 gap-10 p-10">
             {favoriteNfts.map((nft, index) => (
               <div
@@ -57,7 +82,15 @@ const ProfileRightContent: React.FC<{ profile: LensProfile | null }> = ({ profil
           </div>
         )}
 
-        {activeTab === 'Reviews' && <div></div>}
+        {activeTab === 'Reviews' && !isLoading && (
+          <>
+            {reviews.map((review, index) => (
+              <div key={index} className="">
+                <ReviewCard review={review} key={index} />
+              </div>
+            ))}
+          </>
+        )}
       </div>
     </>
   )

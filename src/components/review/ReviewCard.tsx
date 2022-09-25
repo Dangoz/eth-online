@@ -41,7 +41,7 @@ const ReviewCard: React.FC<ReviewcardProps> = ({ review }) => {
         {/* creator */}
         <div className="flex justify-start items-center gap-3">
           <div
-            className="w-[50px] h-[50px] rounded-full gradientBG flex justify-center items-center cursor-pointer primaryShadow"
+            className="w-[50px] h-[50px] rounded-full gradientBG flex justify-center items-center cursor-pointer primaryShadow z-30"
             onClick={() => Router.push(`/profile/${review.profile.id}`)}
           >
             <img
@@ -62,7 +62,7 @@ const ReviewCard: React.FC<ReviewcardProps> = ({ review }) => {
           <BackArrow />
           <img
             alt="poster"
-            className="w-[60px] h-[90px] object-cover cursor-pointer hover:shadow-md hover:shadow-black"
+            className="w-[60px] h-[90px] object-cover cursor-pointer hover:shadow-md hover:shadow-black z-30"
             src={review.metadata.image}
             onClick={() => Router.push(`/show/${originalReview?.mediaType}/${getMediaId(review)}`)}
           />

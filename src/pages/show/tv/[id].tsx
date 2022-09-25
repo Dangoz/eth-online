@@ -14,14 +14,9 @@ const Show: NextPage<{ media: Media }> = ({ media }) => {
 export default Show
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const pathArray = context?.params?.media as string[]
-  if (pathArray[0] !== 'movie' && pathArray[0] !== 'tv') {
-    return {
-      notFound: true,
-    }
-  }
+  const id = context?.params?.id as string
 
-  const { media, error } = await tmdb.getDetails(+pathArray[1], pathArray[0])
+  const { media, error } = await tmdb.getDetails(+id, 'tv')
   if (error !== null) {
     return {
       notFound: true,

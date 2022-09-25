@@ -46,7 +46,9 @@ const ShowContainer: React.FC<{ media: Media }> = ({ media }) => {
       return handleInfo('Please Sign in with Lens to review')
     }
     setShowReviewModal(true)
-    handleInfo(`You already reviewed this ${media.media_type}, a new review will replace the old one`)
+    if (existingReview) {
+      handleInfo(`You already reviewed this ${media.media_type}, a new review will replace the old one`)
+    }
   }
 
   const handleFavorite = async () => {

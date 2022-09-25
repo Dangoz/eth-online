@@ -4,7 +4,7 @@ import type { ParseReivewPostInput } from '@/types/review'
 import Divider from '@/components/ui/Divider'
 import { useState, useEffect } from 'react'
 import dayjs from 'dayjs'
-import { parseIpfs } from '@/common/utils'
+import { parseIpfs, getMediaId } from '@/common/utils'
 import BackArrow from '@/components/icons/BackArrow'
 import StarRating from '@/components/ui/StarRating'
 import Router from 'next/router'
@@ -64,7 +64,7 @@ const ReviewCard: React.FC<ReviewcardProps> = ({ review }) => {
             alt="poster"
             className="w-[60px] h-[90px] object-cover cursor-pointer hover:shadow-md hover:shadow-black"
             src={review.metadata.image}
-            onClick={() => Router.push(`/show/${originalReview?.mediaType}/${review.metadata.tags[0]}`)}
+            onClick={() => Router.push(`/show/${originalReview?.mediaType}/${getMediaId(review)}`)}
           />
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-1 font-semibold">

@@ -117,7 +117,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media }) => {
         image: tmdbImagePrefixPoster + (media.poster_path || media.backdrop_path),
         mainContentFocus: PublicationMainFocus.Article,
         locale: 'en',
-        tags: [`${media?.id}`],
+        tags: [`${media.media_type}${media?.id}`],
         // contentWarning; 'SPOLIER'
       }
 

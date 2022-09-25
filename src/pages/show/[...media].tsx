@@ -14,23 +14,31 @@ const Show: NextPage<{ media: Media }> = ({ media }) => {
 export default Show
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const pathArray = context?.params?.media as string[]
-  if (pathArray[0] !== 'movie' && pathArray[0] !== 'tv') {
+  try {
+    const pathArray = context?.params?.media as string[]
+    if (pathArray[0] !== 'movie' && pathArray[0] !== 'tv') {
+      return {
+        notFound: true,
+      }
+    }
+
+    const { media, error } = await tmdb.getDetails(+pathArray[1], pathArray[0])
+    if (error !== null) {
+      return {
+        notFound: true,
+      }
+    }
+
+    return {
+      props: {
+        media,
+      },
+    }
+  } catch (err) {
+    const error = err as any
+    console.error(error?.data?.message || error?.message || error)
     return {
       notFound: true,
     }
-  }
-
-  const { media, error } = await tmdb.getDetails(+pathArray[1], pathArray[0])
-  if (error !== null) {
-    return {
-      notFound: true,
-    }
-  }
-
-  return {
-    props: {
-      media,
-    },
   }
 }

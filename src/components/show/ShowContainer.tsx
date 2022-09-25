@@ -14,11 +14,13 @@ import useAddress from '@/hooks/useAddress'
 import { handleInfo } from '@/common/notification'
 import { getPostByProfileIdAndTag } from '@/common/lens/post'
 import type { LensPost } from '@/types/lens'
+import FavoriteModal from '../favorite/FavoriteModal'
 
 const ShowContainer: React.FC<{ media: Media }> = ({ media }) => {
   const [existingReview, setExistingReview] = useState<LensPost | null>(null)
   const [showReviewModal, setShowReviewModal] = useState(false)
   const [showWorldIDModal, setShowWorldIDModal] = useState(false)
+  const [showFavoriteModal, setShowFavoriteModal] = useState(false)
   const { isConnected } = useAddress()
   const {
     userStore: { lensAuthenticated, lensProfile },
@@ -55,7 +57,7 @@ const ShowContainer: React.FC<{ media: Media }> = ({ media }) => {
     if (!isConnected) {
       return handleInfo('Please Connect your Wallet to review')
     }
-    setShowWorldIDModal(true)
+    setShowFavoriteModal(true)
   }
 
   return (
@@ -90,7 +92,11 @@ const ShowContainer: React.FC<{ media: Media }> = ({ media }) => {
           existingReview={existingReview}
         />
       )}
-      <WorldIDModal open={showWorldIDModal} onClose={() => setShowWorldIDModal(false)} />
+      {/* <WorldIDModal open={showWorldIDModal} onClose={() => setShowWorldIDModal(false)} /> */}
+
+      {showFavoriteModal && (
+        <FavoriteModal open={showFavoriteModal} onClose={() => setShowFavoriteModal(false)} media={media} />
+      )}
     </>
   )
 }

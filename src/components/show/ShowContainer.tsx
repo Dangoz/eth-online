@@ -12,14 +12,33 @@ import Spinner from '../ui/Spinner'
 import useUser from '@/hooks/useUser'
 import useAddress from '@/hooks/useAddress'
 import { handleInfo } from '@/common/notification'
+import { getPostByProfileIdAndTag } from '@/common/lens/post'
+import type { LensPost } from '@/types/lens'
 
 const ShowContainer: React.FC<{ media: Media }> = ({ media }) => {
+  const [existingReview, setExistingReview] = useState<LensPost | null>(null)
   const [showReviewModal, setShowReviewModal] = useState(false)
   const [showWorldIDModal, setShowWorldIDModal] = useState(false)
   const { isConnected } = useAddress()
   const {
     userStore: { lensAuthenticated, lensProfile },
   } = useUser()
+
+  useEffect(() => {
+    if (!lensProfile?.id) {
+      return
+    }
+    const profileId = lensProfile.id
+    const tag = `${media.media_type}${media.id}`
+
+    const checkExistingReview = async () => {
+      const post = await getPostByProfileIdAndTag(profileId, tag)
+      if (post) {
+        setExistingReview(post)
+      }
+    }
+    checkExistingReview()
+  }, [media, lensProfile])
 
   const handleReview = async () => {
     if (!isConnected) {
@@ -52,7 +71,12 @@ const ShowContainer: React.FC<{ media: Media }> = ({ media }) => {
           <div className={`absolute top-0 left-0 w-full h-[80vh] bg-black bg-opacity-75 z-20`} />
           {/* show info */}
           <div className={`absolute top-0 left-0 w-full h-[80vh] z-30`}>
-            <ShowInfo media={media} handleReview={handleReview} handleFavorite={handleFavorite} />
+            <ShowInfo
+              media={media}
+              handleReview={handleReview}
+              handleFavorite={handleFavorite}
+              existingReview={existingReview}
+            />
           </div>
         </div>
       </div>

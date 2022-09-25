@@ -4,14 +4,16 @@ import { Spacer } from '@nextui-org/react'
 import { PencilSquareIcon, HeartIcon } from '@heroicons/react/24/solid'
 import RatingStar from '@/components/icons/RatingStar'
 import { useEffect, useState } from 'react'
+import { LensPost } from '@/types/lens'
 
 interface ShowInfoProps {
   media: Media
   handleReview: () => void
   handleFavorite: () => void
+  existingReview: LensPost | null
 }
 
-const ShowInfo: React.FC<ShowInfoProps> = ({ media, handleReview, handleFavorite }) => {
+const ShowInfo: React.FC<ShowInfoProps> = ({ media, handleReview, handleFavorite, existingReview }) => {
   const [rating, setRating] = useState<number | null>(null)
   const [trailerKey, setTrailerKey] = useState<string | null>(null)
 
@@ -43,17 +45,17 @@ const ShowInfo: React.FC<ShowInfoProps> = ({ media, handleReview, handleFavorite
         {/* middle button options */}
         <div className="h-[7vh] flex justify-start items-start gap-5 pl-5 pt-2">
           <div
-            className="w-[44px] h-[44px] gradientBG flex justify-center items-center rounded-[100px] cursor-pointer"
+            className={`w-[44px] h-[44px] gradientBG flex justify-center items-center rounded-[100px] cursor-pointer primaryShadow`}
             onClick={handleFavorite}
           >
-            <HeartIcon className="w-[20px] h-[20px]" />
+            <HeartIcon className={`w-[20px] h-[20px]`} />
           </div>
 
           <div
-            className="w-[44px] h-[44px] gradientBG flex justify-center items-center rounded-[100px] cursor-pointer"
+            className={`w-[44px] h-[44px] gradientBG flex justify-center items-center rounded-[100px] cursor-pointer primaryShadow`}
             onClick={handleReview}
           >
-            <PencilSquareIcon className="w-[20px] h-[20px]" />
+            <PencilSquareIcon className={`w-[20px] h-[20px] ${existingReview && 'fill-black'}`} />
           </div>
         </div>
 

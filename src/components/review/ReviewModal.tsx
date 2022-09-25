@@ -213,7 +213,15 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media }) => {
 
   return (
     <>
-      <Modal open={open} onClose={onClose} closeButton blur width="500px" className="bg-bgBlue" preventClose={true}>
+      <Modal
+        open={open}
+        onClose={onClose}
+        closeButton
+        blur
+        width="500px"
+        className="bg-bgBlue"
+        preventClose={isPublishing}
+      >
         <Modal.Body>
           {!isPublishing && (
             <div className="flex flex-col w-full h-full gap-3">

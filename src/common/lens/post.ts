@@ -189,6 +189,59 @@ export const GET_POST_BY_TXHASH = gql`
   }
 `
 
+export const GET_POST_BY_PROFILEID_AND_TAG = gql`
+  query Publications($profileId: ProfileId!, $tag: [String!]) {
+    publications(
+      request: {
+        profileId: $profileId
+        publicationTypes: [POST]
+        sources: ["cineplanet"]
+        limit: 1
+        metadata: { mainContentFocus: ARTICLE, tags: { oneOf: $tag } }
+      }
+    ) {
+      items {
+        __typename
+        ... on Post {
+          id
+          appId
+          createdAt
+          profile {
+            id
+            name
+            handle
+            picture {
+              ... on MediaSet {
+                original {
+                  url
+                }
+              }
+            }
+          }
+          metadata {
+            name
+            description
+            content
+            image
+            media {
+              original {
+                url
+              }
+            }
+            tags
+            mainContentFocus
+          }
+          stats {
+            totalAmountOfComments
+            totalAmountOfCollects
+            totalUpvotes
+          }
+        }
+      }
+    }
+  }
+`
+
 export const createPostTypedData = async (
   profileId: string,
   contentURI: string,
@@ -237,4 +290,17 @@ export const getPostByTxHash = async (txHash: string): Promise<LensPost | null> 
   }
 
   return data.publication as LensPost
+}
+
+export const getPostByProfileIdAndTag = async (profileId: string, tag: string): Promise<LensPost | null> => {
+  const variables = { profileId, tag: [tag] }
+  const { data, error } = await LensUrqlClient.query(GET_POST_BY_PROFILEID_AND_TAG, variables, {
+    requestPolicy: 'network-only',
+  }).toPromise()
+  if (error) {
+    handleError(error)
+    return null
+  }
+
+  return data.publications.items[0] as LensPost
 }

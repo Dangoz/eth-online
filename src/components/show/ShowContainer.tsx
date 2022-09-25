@@ -68,10 +68,10 @@ const ShowContainer: React.FC<{ media: Media }> = ({ media }) => {
           <img
             src={tmdbImagePrefixFull + (media.backdrop_path || media.poster_path)}
             alt="Cover Image"
-            className="w-full h-[80vh] object-cover backdrop-blur-2xl z-10"
+            className="w-full h-[93vh] object-cover backdrop-blur-2xl z-10"
           />
           {/* background img blur cover  */}
-          <div className={`absolute top-0 left-0 w-full h-[80vh] bg-black bg-opacity-75 z-20`} />
+          <div className={`absolute top-0 left-0 w-full h-[93vh] bg-black bg-opacity-75 z-20`} />
           {/* show info */}
           <div className={`absolute top-0 left-0 w-full h-[80vh] z-30`}>
             <ShowInfo

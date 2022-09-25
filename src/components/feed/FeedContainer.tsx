@@ -14,7 +14,8 @@ const FeedContainer: React.FC = () => {
   const [nextCursor, setNextCursor] = useState<string | null>(null)
   const [currentPageInfo, setCurrentPageInfo] = useState<PaginatedResultInfo | null>(null)
   const [reviews, setReviews] = useState<LensPost[]>([])
-  const [feedResult, fetchFeedResult] = useQuery({
+  const [feedResult] = useQuery({
+    requestPolicy: 'network-only',
     query: EXPLORE_LATEST_POSTS,
     variables: {
       cursor: nextCursor,
@@ -39,7 +40,7 @@ const FeedContainer: React.FC = () => {
 
   const debouncedCursorChange = useDebounce(async (cursor: string) => {
     setNextCursor(cursor)
-  }, 1000)
+  }, 500)
 
   const handleLoadMore = useCallback(async () => {
     if (!currentPageInfo) {

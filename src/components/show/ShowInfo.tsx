@@ -68,12 +68,12 @@ const ShowInfo: React.FC<ShowInfoProps> = ({ media, handleReview, handleFavorite
               className="h-full rounded-l-[8px]"
             />
             <div className="h-full">
-              {/* <iframe
+              <iframe
                 className="w-[400px] h-[26vh] border-collapse rounded-r-[8px]"
                 src={`https://www.youtube.com/embed/${trailerKey}?showinfo=0&modestbranding=1&rel=0&autoplay=1&mute=1&loop=1&controls=0&playlist=${trailerKey}`}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen={true}
-              /> */}
+              />
             </div>
           </div>
 

@@ -8508,6 +8508,11 @@ undici@^5.8.0, undici@^5.8.1:
   resolved "https://registry.yarnpkg.com/undici/-/undici-5.10.0.tgz#dd9391087a90ccfbd007568db458674232ebf014"
   integrity sha512-c8HsD3IbwmjjbLvoZuRI26TZic+TSEe8FPMLLOkN1AfYRhdjnKBU6yL+IwcSCbdZiX4e5t0lfMDLDCqj4Sq70g==
 
+uni-media@^0.1.9:
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/uni-media/-/uni-media-0.1.9.tgz#1287e84da90143e5823577f53dba88d87f1a836c"
+  integrity sha512-+R/1kCGFCwY+mnGmY3F1kVMd8DSJ5tKh9qrAEEkcXscx6rhHUJp/ggc9I3puo9gDj4PGB9YzJCdoU2U+lqoNuQ==
+
 unixify@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/unixify/-/unixify-1.0.0.tgz#3a641c8c2ffbce4da683a5c70f03a462940c2090"

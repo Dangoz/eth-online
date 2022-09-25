@@ -32,6 +32,7 @@
     "react-dom": "18.2.0",
     "react-toastify": "^9.0.8",
     "sharp": "^0.31.0",
+    "uni-media": "^0.1.9",
     "urql": "^3.0.3",
     "wagmi": "^0.6.5"
   },

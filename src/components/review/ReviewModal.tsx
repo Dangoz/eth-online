@@ -39,6 +39,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media, existin
   const [reviewTitle, setReviewTitle] = useState('')
   const [reviewContent, setReviewContent] = useState('')
   const [isPublishing, setIsPublishing] = useState(false)
+  const [isHidingStale, setIsHidingStale] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
   const [isAwaitingSign, setIsAwaitingSign] = useState(false)
   const [isFinalizing, setIsFinalizing] = useState(false)
@@ -86,6 +87,12 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media, existin
 
       // initiate publishing process
       setIsPublishing(true)
+
+      // if there's an existing review, hide it
+      if (existingReview) {
+        setIsHidingStale(true)
+        await hidePublication(existingReview.id)
+      }
 
       // parseReview, upload data to IPFS, then upload metadataURL to Lens
       setIsUploading(true)
@@ -289,6 +296,24 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media, existin
           {/* publication transition visual */}
           {isPublishing && (
             <div className="flex flex-col w-full h-full gap-3">
+              {/* hiding stale review */}
+              {existingReview && (
+                <div className="flex justify-start items-center gap-10 p-3 pl-10">
+                  <div className="w-[50px] h-[50px] flex justify-center items-center">
+                    {!isHidingStale ? (
+                      <div className="text-[18px] w-[40px] h-[40px] rounded-[99px] flex items-center justify-center border border-titlePurple">
+                        0
+                      </div>
+                    ) : !isUploading ? (
+                      <Loading color={'secondary'} />
+                    ) : (
+                      <CheckBadgeIcon className="fill-titlePurple" />
+                    )}
+                  </div>
+                  <div className="font-semibold text-[18px]">Deleting Stale Review</div>
+                </div>
+              )}
+
               {/* uploading review */}
               <div className="flex justify-start items-center gap-10 p-3 pl-10">
                 <div className="w-[50px] h-[50px] flex justify-center items-center">

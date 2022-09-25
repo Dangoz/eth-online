@@ -2,30 +2,29 @@ import type { NextPage, GetServerSideProps } from 'next'
 import ShowContainer from '@/components/show/ShowContainer'
 import type { Media } from '@/types/tmdb'
 import tmdb from '@/common/tmdb'
+import { useState, useEffect, useCallback } from 'react'
+import { useRouter } from 'next/router'
 
-const Show: NextPage<{ media: Media }> = ({ media }) => {
-  return (
-    <>
-      <ShowContainer media={media} />
-    </>
-  )
-}
+const TV: NextPage = () => {
+  const router = useRouter()
+  const [media, setMedia] = useState<Media | null>(null)
 
-export default Show
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const id = context?.params?.id as string
-
-  const { media, error } = await tmdb.getDetails(+id, 'tv')
-  if (error !== null) {
-    return {
-      notFound: true,
+  const getTV = useCallback(async () => {
+    const id = router?.query?.id as string
+    const { media, error } = await tmdb.getDetails(+id, 'tv')
+    if (error !== null) {
+      return {
+        notFound: true,
+      }
     }
-  }
+    setMedia(media)
+  }, [router])
 
-  return {
-    props: {
-      media,
-    },
-  }
+  useEffect(() => {
+    getTV()
+  }, [getTV])
+
+  return <>{media && <ShowContainer media={media} />}</>
 }
+
+export default TV

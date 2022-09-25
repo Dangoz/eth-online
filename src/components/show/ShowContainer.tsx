@@ -9,16 +9,32 @@ import WorldIDModal from '../navigation/WorldIDModal'
 import CustomStyle from '@/styles/custom.module.css'
 import ShowInfo from './ShowInfo'
 import Spinner from '../ui/Spinner'
+import useUser from '@/hooks/useUser'
+import useAddress from '@/hooks/useAddress'
+import { handleInfo } from '@/common/notification'
 
 const ShowContainer: React.FC<{ media: Media }> = ({ media }) => {
   const [showReviewModal, setShowReviewModal] = useState(false)
   const [showWorldIDModal, setShowWorldIDModal] = useState(false)
+  const { isConnected } = useAddress()
+  const {
+    userStore: { lensAuthenticated },
+  } = useUser()
 
   const handleReview = async () => {
+    if (!isConnected) {
+      return handleInfo('Please Connect your Wallet to review')
+    }
+    if (!lensAuthenticated) {
+      return handleInfo('Please Sign in with Lens to review')
+    }
     setShowReviewModal(true)
   }
 
   const handleFavorite = async () => {
+    if (!isConnected) {
+      return handleInfo('Please Connect your Wallet to review')
+    }
     setShowWorldIDModal(true)
   }
 

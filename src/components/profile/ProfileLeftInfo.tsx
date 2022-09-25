@@ -9,6 +9,9 @@ import { useLaunch } from '@relaycc/receiver'
 import { IS_FOLLOWED_BY_ME } from '@/common/lens/follow'
 import { useQuery } from 'urql'
 import { notifyErrorMessage } from '@/common/notification'
+import useAddress from '@/hooks/useAddress'
+import useUser from '@/hooks/useUser'
+import { handleInfo } from '@/common/notification'
 
 interface ProfileLeftInfoProps {
   profile: LensProfile | null
@@ -16,6 +19,10 @@ interface ProfileLeftInfoProps {
 }
 
 const ProfileLeftInfo: React.FC<ProfileLeftInfoProps> = ({ profile, avatar }) => {
+  const { isConnected } = useAddress()
+  const {
+    userStore: { lensAuthenticated },
+  } = useUser()
   const [isFollowed, setIsFollowed] = useState<boolean | null>(null)
   const launch = useLaunch()
   const { data: ensName } = useEnsName({
@@ -44,7 +51,13 @@ const ProfileLeftInfo: React.FC<ProfileLeftInfoProps> = ({ profile, avatar }) =>
   }, [isFollowedResult])
 
   const handleFollowProfile = async () => {
-    alert('ruaa')
+    if (!isConnected) {
+      return handleInfo('Please Connect your Wallet to review')
+    }
+    if (!lensAuthenticated) {
+      return handleInfo('Please Sign in with Lens to review')
+    }
+    // alert('ruaa')
   }
 
   const handleMessageProfile = async () => {

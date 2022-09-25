@@ -1,9 +1,9 @@
 import { Media } from '@/types/tmdb'
-import { getMediaTitle, getMediaReleaseDate, tmdbImagePrefixPoster } from '@/common/tmdb'
+import imdb, { getMediaTitle, getMediaReleaseDate, tmdbImagePrefixPoster } from '@/common/tmdb'
 import { Spacer } from '@nextui-org/react'
 import { PencilSquareIcon, HeartIcon } from '@heroicons/react/24/solid'
 import RatingStar from '@/components/icons/RatingStar'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface ShowInfoProps {
   media: Media
@@ -13,6 +13,18 @@ interface ShowInfoProps {
 
 const ShowInfo: React.FC<ShowInfoProps> = ({ media, handleReview, handleFavorite }) => {
   const [rating, setRating] = useState<number | null>(null)
+  const [trailerKey, setTrailerKey] = useState<string | null>(null)
+
+  useEffect(() => {
+    const getTrailer = async () => {
+      if (!media.id) {
+        return
+      }
+      const key = await imdb.getTrailer(media.id, media.media_type)
+      setTrailerKey(key)
+    }
+    getTrailer()
+  }, [media])
 
   return (
     <>
@@ -54,12 +66,12 @@ const ShowInfo: React.FC<ShowInfoProps> = ({ media, handleReview, handleFavorite
               className="h-full rounded-l-[8px]"
             />
             <div className="h-full">
-              {/* <iframe
-                className='w-[400px] h-[26vh] border-collapse rounded-r-[8px]'
-                src={`https://www.youtube.com/embed/6zkM-oniRQ0?showinfo=0&modestbranding=1&rel=0&autoplay=1&mute=1&controls=0&loop=1&playlist=6zkM-oniRQ0`}
+              <iframe
+                className="w-[400px] h-[26vh] border-collapse rounded-r-[8px]"
+                src={`https://www.youtube.com/embed/${trailerKey}?showinfo=0&modestbranding=1&rel=0&autoplay=1&mute=1&controls=0&loop=1`}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen={true}
-              /> */}
+              />
             </div>
           </div>
 

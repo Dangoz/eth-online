@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { handleError } from './notification'
-import type { TmdbShow, MediaType, Movie, TV, Media } from '@/types/tmdb'
+import type { TmdbShow, MediaType, Movie, TV, Media, MediaVideo } from '@/types/tmdb'
 import { TMDB_API_URL } from './endpoints'
 import { TMDB_API_KEY, TMDB_API_FALLBACK_KEY } from './constants'
 
@@ -49,6 +49,31 @@ const tmdb = {
     } catch (err) {
       console.error((err as Error).message)
       return { media: null, error: err as Error }
+    }
+  },
+
+  // get video trailers of a media
+  getTrailer: async (id: number, type: MediaType): Promise<string> => {
+    try {
+      const res = await tmdbAPI.get(`/${type}/${id}/videos`)
+      const videos = res.data.results as MediaVideo[]
+
+      // look for offical one first
+      let trailer = videos.find((video) => {
+        return video.site === 'YouTube' && video.official && video.type === 'Trailer'
+      })
+
+      // try for other video type including unofficial ones
+      if (!trailer) {
+        trailer = videos.find((video) => {
+          return video.site === 'YouTube'
+        })
+      }
+
+      return trailer?.key || ''
+    } catch (err) {
+      handleError(err as Error)
+      return ''
     }
   },
 }

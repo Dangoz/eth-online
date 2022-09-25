@@ -69,3 +69,14 @@ export type episode = {
   season_number?: number
   still_path?: string
 }
+
+export type MediaVideo = {
+  type: string
+  official: boolean
+  size: number
+  id: string
+  site: string
+  name: string
+  published_at: Date
+  key: string
+}

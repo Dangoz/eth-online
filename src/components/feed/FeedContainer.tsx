@@ -32,7 +32,6 @@ const FeedContainer: React.FC = () => {
     }
     if (feedResult.data) {
       const posts = feedResult.data.explorePublications.items
-      console.log('setting review')
       setReviews((reviews) => [...reviews, ...posts])
       setCurrentPageInfo(feedResult.data.explorePublications.pageInfo)
     }

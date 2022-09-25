@@ -19,9 +19,6 @@ const ReviewCard: React.FC<ReviewcardProps> = ({ review }) => {
   useEffect(() => {
     const parsedReview = reverseParseReviewPost(review.metadata.content)
     setOriginalReview(parsedReview)
-    if (parsedReview.mediaName === 'Initial D') {
-      console.log('D', parsedReview.reviewContent)
-    }
   }, [review])
 
   useEffect(() => {

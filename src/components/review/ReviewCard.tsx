@@ -19,6 +19,9 @@ const ReviewCard: React.FC<ReviewcardProps> = ({ review }) => {
   useEffect(() => {
     const parsedReview = reverseParseReviewPost(review.metadata.content)
     setOriginalReview(parsedReview)
+    if (parsedReview.mediaName === 'Initial D') {
+      console.log('D', parsedReview.reviewContent)
+    }
   }, [review])
 
   useEffect(() => {
@@ -32,7 +35,7 @@ const ReviewCard: React.FC<ReviewcardProps> = ({ review }) => {
     <>
       <div
         className="w-full rounded-[24px] bg-bgGrey flex flex-col justify-start border-[2px] border-white 
-         p-[24px] gap-2 mt-5"
+         p-[24px] gap-2 mt-5 max-h-[1000px]"
         style={{
           breakInside: 'avoid',
         }}
@@ -75,7 +78,9 @@ const ReviewCard: React.FC<ReviewcardProps> = ({ review }) => {
         {/* review */}
         <div className="flex flex-col gap-2">
           <div className="text-[18px] font-semibold">{originalReview?.reviewHeadline}</div>
-          <div className=" break-words">{originalReview?.reviewContent}</div>
+          <div className="whitespace-pre-line break-words overflow-y-scroll max-h-[680px]">
+            {originalReview?.reviewContent}
+          </div>
         </div>
 
         <Divider />

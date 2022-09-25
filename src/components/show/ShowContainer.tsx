@@ -33,9 +33,7 @@ const ShowContainer: React.FC<{ media: Media }> = ({ media }) => {
 
     const checkExistingReview = async () => {
       const post = await getPostByProfileIdAndTag(profileId, tag)
-      if (post) {
-        setExistingReview(post)
-      }
+      post ? setExistingReview(post) : setExistingReview(null)
     }
     checkExistingReview()
   }, [media, lensProfile])
@@ -48,6 +46,7 @@ const ShowContainer: React.FC<{ media: Media }> = ({ media }) => {
       return handleInfo('Please Sign in with Lens to review')
     }
     setShowReviewModal(true)
+    handleInfo(`You already reviewed this ${media.media_type}, a new review will replace the old one`)
   }
 
   const handleFavorite = async () => {
@@ -82,7 +81,12 @@ const ShowContainer: React.FC<{ media: Media }> = ({ media }) => {
       </div>
 
       {showReviewModal && (
-        <ReviewModal open={showReviewModal} onClose={() => setShowReviewModal(false)} media={media} />
+        <ReviewModal
+          open={showReviewModal}
+          onClose={() => setShowReviewModal(false)}
+          media={media}
+          existingReview={existingReview}
+        />
       )}
       <WorldIDModal open={showWorldIDModal} onClose={() => setShowWorldIDModal(false)} />
     </>

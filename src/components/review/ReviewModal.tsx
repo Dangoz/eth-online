@@ -22,14 +22,16 @@ import omit from 'lodash.omit'
 import { broadcastRelay } from '@/common/lens/relay'
 import { CheckBadgeIcon } from '@heroicons/react/24/solid'
 import Router from 'next/router'
+import { hidePublication } from '@/common/lens/hide'
 
 interface ReviewModalProps {
   open: boolean
   onClose: () => void
   media: Media
+  existingReview: LensPost | null
 }
 
-const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media }) => {
+const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media, existingReview }) => {
   const {
     userStore: { lensProfile },
   } = useUser()

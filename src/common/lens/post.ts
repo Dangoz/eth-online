@@ -146,6 +146,49 @@ export const GET_POST_BY_PUBLICATIONID = gql`
   }
 `
 
+export const GET_POST_BY_TXHASH = gql`
+  query Publication($txHash: TxHash!) {
+    publication(request: { txHash: $txHash }) {
+      __typename
+      ... on Post {
+        id
+        appId
+        createdAt
+        profile {
+          id
+          name
+          handle
+          picture {
+            ... on MediaSet {
+              original {
+                url
+              }
+            }
+          }
+        }
+        metadata {
+          name
+          description
+          content
+          image
+          media {
+            original {
+              url
+            }
+          }
+          tags
+          mainContentFocus
+        }
+        stats {
+          totalAmountOfComments
+          totalAmountOfCollects
+          totalUpvotes
+        }
+      }
+    }
+  }
+`
+
 export const createPostTypedData = async (
   profileId: string,
   contentURI: string,
@@ -181,4 +224,17 @@ export const exploreLatestPosts = async (cursor?: string): Promise<LensPost[]> =
     return []
   }
   return data.explorePublications.items as LensPost[]
+}
+
+export const getPostByTxHash = async (txHash: string): Promise<LensPost | null> => {
+  const variables = { txHash }
+  const { data, error } = await LensUrqlClient.query(GET_POST_BY_TXHASH, variables, {
+    requestPolicy: 'network-only',
+  }).toPromise()
+  if (error) {
+    handleError(error)
+    return null
+  }
+
+  return data.publication as LensPost
 }

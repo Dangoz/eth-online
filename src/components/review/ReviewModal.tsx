@@ -7,7 +7,7 @@ import StarRating from '@/components/ui/StarRating'
 import Divider from '@/components/ui/Divider'
 import { parseReviewPost } from '@/common/review'
 import type { IPFSMetadataInput } from '@/types/nftport'
-import type { LensPublicationMetadata } from '@/types/lens'
+import type { LensPost, LensPublicationMetadata } from '@/types/lens'
 import { PublicationMainFocus } from '@/types/generated/types'
 import { LENS_APP_ID, LENSHUB_PROXY_ADDRESS } from '@/common/constants'
 import lensHubAbi from '@/abis/LensHubProxy.json'
@@ -15,12 +15,13 @@ import { nanoid } from 'nanoid'
 import useUser from '@/hooks/useUser'
 import nftport from '@/common/nftPort'
 import { parseIpfs } from '@/common/utils'
-import { createPostTypedData } from '@/common/lens/post'
+import { createPostTypedData, getPostByTxHash } from '@/common/lens/post'
 import { utils as ethersUtils } from 'ethers'
 import { useSignTypedData, useContractWrite } from 'wagmi'
 import omit from 'lodash.omit'
 import { broadcastRelay } from '@/common/lens/relay'
 import { CheckBadgeIcon } from '@heroicons/react/24/solid'
+import Router from 'next/router'
 
 interface ReviewModalProps {
   open: boolean
@@ -160,34 +161,51 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media }) => {
       setIsFinalizing(true)
       const relayResult = await broadcastRelay(typedId, signature)
       console.log('relayResult', relayResult)
+
+      let txHash: string
       if (relayResult) {
-        handleSuccess('Review Posted Successfully')
-        onClose()
-        return
+        txHash = relayResult
+      } else {
+        const { v, r, s } = ethersUtils.splitSignature(signature)
+        const tx = await writeAsync?.({
+          recklesslySetUnpreparedArgs: {
+            profileId: typedData.value.profileId,
+            contentURI: typedData.value.contentURI,
+            collectModule: typedData.value.collectModule,
+            collectModuleInitData: typedData.value.collectModuleInitData,
+            referenceModule: typedData.value.referenceModule,
+            referenceModuleInitData: typedData.value.referenceModuleInitData,
+            sig: {
+              v,
+              r,
+              s,
+              deadline: typedData.value.deadline,
+            },
+          },
+        })
+        console.log('FINALLY', tx.hash)
+        txHash = tx.hash
       }
 
-      const { v, r, s } = ethersUtils.splitSignature(signature)
-      const tx = await writeAsync?.({
-        recklesslySetUnpreparedArgs: {
-          profileId: typedData.value.profileId,
-          contentURI: typedData.value.contentURI,
-          collectModule: typedData.value.collectModule,
-          collectModuleInitData: typedData.value.collectModuleInitData,
-          referenceModule: typedData.value.referenceModule,
-          referenceModuleInitData: typedData.value.referenceModuleInitData,
-          sig: {
-            v,
-            r,
-            s,
-            deadline: typedData.value.deadline,
-          },
-        },
-      })
-      console.log('FINALLY', tx.hash)
-      if (tx) {
-        handleSuccess('Review Posted Successfully')
-        onClose()
-      }
+      // request pooling every 3 seconds with a timeout of 15 seconds
+      let newReview: LensPost | null = null
+      const poolInterval = setInterval(async () => {
+        newReview = await getPostByTxHash(txHash)
+        if (newReview) {
+          handleSuccess('Review Posted Successfully')
+          clearInterval(poolInterval)
+          Router.push(`/review/${newReview.id}`)
+          return onClose()
+        }
+      }, 3000)
+      setTimeout(() => {
+        if (newReview) {
+          return
+        }
+        clearInterval(poolInterval)
+        handleInfo('Review Posted Successfully, but indexing timedout, please check back later')
+        return onClose()
+      }, 150000)
     } catch {
       onClose()
     }
@@ -195,7 +213,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media }) => {
 
   return (
     <>
-      <Modal open={open} onClose={onClose} closeButton blur width="500px" className="bg-bgBlue">
+      <Modal open={open} onClose={onClose} closeButton blur width="500px" className="bg-bgBlue" preventClose={true}>
         <Modal.Body>
           {!isPublishing && (
             <div className="flex flex-col w-full h-full gap-3">

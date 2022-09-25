@@ -18,7 +18,7 @@ const ShowContainer: React.FC<{ media: Media }> = ({ media }) => {
   const [showWorldIDModal, setShowWorldIDModal] = useState(false)
   const { isConnected } = useAddress()
   const {
-    userStore: { lensAuthenticated },
+    userStore: { lensAuthenticated, lensProfile },
   } = useUser()
 
   const handleReview = async () => {

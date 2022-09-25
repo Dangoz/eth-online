@@ -4,7 +4,7 @@ import type { LensPost } from '@/types/lens'
 import LensUrqlClient from './client'
 import { handleError } from '../notification'
 
-// Cineplanet Reviews are Posts in this context
+// Cineplanet Reviews are Publications/Posts in this context
 
 const CREATE_POST_TYPED_DATA = gql`
   mutation ($request: CreatePublicPostRequest!) {
@@ -98,6 +98,49 @@ export const EXPLORE_LATEST_POSTS = gql`
         prev
         next
         totalCount
+      }
+    }
+  }
+`
+
+export const GET_POST_BY_PUBLICATIONID = gql`
+  query Publication($publicationId: InternalPublicationId!) {
+    publication(request: { publicationId: $publicationId }) {
+      __typename
+      ... on Post {
+        id
+        appId
+        createdAt
+        profile {
+          id
+          name
+          handle
+          picture {
+            ... on MediaSet {
+              original {
+                url
+              }
+            }
+          }
+        }
+        metadata {
+          name
+          description
+          content
+          image
+          media {
+            original {
+              url
+            }
+          }
+          tags
+          mainContentFocus
+        }
+        stats {
+          totalAmountOfComments
+          totalAmountOfCollects
+          totalUpvotes
+        }
       }
     }
   }

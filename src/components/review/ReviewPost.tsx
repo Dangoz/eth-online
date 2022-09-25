@@ -9,10 +9,11 @@ import BackArrow from '@/components/icons/BackArrow'
 import StarRating from '@/components/ui/StarRating'
 import Router from 'next/router'
 
-interface ReviewcardProps {
+interface ReviewPostProps {
   review: LensPost
 }
-const ReviewCard: React.FC<ReviewcardProps> = ({ review }) => {
+
+const ReviewPost: React.FC<ReviewPostProps> = ({ review }) => {
   const [originalReview, setOriginalReview] = useState<ParseReivewPostInput | null>(null)
   const [avatar, setAvatar] = useState<string | null>(null)
 
@@ -31,8 +32,8 @@ const ReviewCard: React.FC<ReviewcardProps> = ({ review }) => {
   return (
     <>
       <div
-        className="w-full rounded-[24px] bg-bgGrey flex flex-col justify-start border-[2px] border-white 
-         p-[24px] gap-2 mt-5 max-h-[1000px] cursor-pointer hover:bg-slate-500"
+        className="rounded-[24px] bg-bgGrey flex flex-col justify-start border-[2px] border-white 
+         p-[24px] gap-2 mt-5 cursor-pointer hover:bg-slate-500 w-[1000px] h-[500px]"
         style={{
           breakInside: 'avoid',
         }}
@@ -69,7 +70,7 @@ const ReviewCard: React.FC<ReviewcardProps> = ({ review }) => {
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-1 font-semibold">
               <div>{originalReview?.mediaName}</div>
-              {/* <div className='text-[10px] text-slate-300'>{`(${originalReview?.mediaYear.slice(0, 4)})`}</div> */}
+              <div className="text-slate-300">{`(${originalReview?.mediaYear.slice(0, 4)})`}</div>
             </div>
 
             <StarRating viewOnly={true} totalRating={10} rating={originalReview?.reviewRating || 10} />
@@ -79,7 +80,7 @@ const ReviewCard: React.FC<ReviewcardProps> = ({ review }) => {
         {/* review */}
         <div className="flex flex-col gap-2">
           <div className="text-[18px] font-semibold">{originalReview?.reviewHeadline}</div>
-          <div className="whitespace-pre-line break-words overflow-y-scroll max-h-[680px]">
+          <div className="whitespace-pre-line break-words overflow-y-scroll max-h-[180px]">
             {originalReview?.reviewContent}
           </div>
         </div>
@@ -99,4 +100,4 @@ const ReviewCard: React.FC<ReviewcardProps> = ({ review }) => {
   )
 }
 
-export default ReviewCard
+export default ReviewPost

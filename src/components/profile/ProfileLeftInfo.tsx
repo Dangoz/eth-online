@@ -12,6 +12,7 @@ import { notifyErrorMessage } from '@/common/notification'
 import useAddress from '@/hooks/useAddress'
 import useUser from '@/hooks/useUser'
 import { handleInfo } from '@/common/notification'
+import { ChatBubbleOvalLeftEllipsisIcon, UserPlusIcon } from '@heroicons/react/24/outline'
 
 interface ProfileLeftInfoProps {
   profile: LensProfile | null
@@ -113,24 +114,28 @@ const ProfileLeftInfo: React.FC<ProfileLeftInfoProps> = ({ profile, avatar }) =>
         </div>
         <Divider />
 
-        <Button
-          color={'gradient'}
-          size="xs"
-          className={`gradientBG h-[40px] w-[99px] text-[16px] text-[black] z-10`}
-          onPress={handleFollowProfile}
-          disabled={isFollowed === null}
-        >
-          {isFollowed === null ? <Loading type="points" /> : isFollowed ? <div>Unfollow</div> : <div>Follow</div>}
-        </Button>
+        <div className="flex gap-3">
+          <Button
+            color={'gradient'}
+            size="xs"
+            className={`gradientBG h-[30px] w-[75px] text-[11px] text-black z-10`}
+            onPress={handleFollowProfile}
+            disabled={isFollowed === null}
+          >
+            <UserPlusIcon className="w-[15px] h-[15px] mr-1" />
+            {isFollowed === null ? <Loading type="points" /> : isFollowed ? <div>Unfollow</div> : <div>Follow</div>}
+          </Button>
 
-        <Button
-          color={'gradient'}
-          size="xs"
-          className={`gradientBG h-[40px] w-[99px] text-[16px] text-[black] z-10`}
-          onPress={handleMessageProfile}
-        >
-          Message
-        </Button>
+          <Button
+            color={'gradient'}
+            size="xs"
+            className={`gradientBG h-[30px] w-[75px] text-[11px] text-black z-10`}
+            onPress={handleMessageProfile}
+          >
+            <ChatBubbleOvalLeftEllipsisIcon className="w-[15px] h-[15px] mr-1" />
+            Message
+          </Button>
+        </div>
       </div>
     </>
   )

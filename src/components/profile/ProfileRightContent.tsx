@@ -52,7 +52,7 @@ const ProfileRightContent: React.FC<{ profile: LensProfile | null }> = ({ profil
   }
   return (
     <>
-      <div className="h-[100%] w-[800px] pt-8">
+      <div className="h-full w-[800px] pt-8">
         {/* Tab Options */}
         <div className="flex pl-10 gap-10">
           {tabs.map((tab, index) => (
@@ -69,7 +69,7 @@ const ProfileRightContent: React.FC<{ profile: LensProfile | null }> = ({ profil
         )}
 
         {activeTab === 'Favorties' && !isLoading && (
-          <div className="h-[300px] w-full grid grid-cols-4 gap-10 p-10">
+          <div className="h-full w-full grid grid-cols-4 gap-10 p-10">
             {favoriteNfts.map((nft, index) => (
               <div
                 className="h-[100%] w-[100%] bg-gray-200 rounded-md border border-white cursor-pointer hover:opacity-50"
@@ -83,13 +83,13 @@ const ProfileRightContent: React.FC<{ profile: LensProfile | null }> = ({ profil
         )}
 
         {activeTab === 'Reviews' && !isLoading && (
-          <>
+          <div className="mb-10">
             {reviews.map((review, index) => (
               <div key={index} className="">
                 <ReviewCard review={review} key={index} />
               </div>
             ))}
-          </>
+          </div>
         )}
       </div>
     </>

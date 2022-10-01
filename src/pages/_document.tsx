@@ -5,7 +5,7 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>{CssBaseline.flush()}</Head>
-      <body className={`bg-bgBlue min-h-screen min-w-[1100px] text-white text-[14px] overflow-x-auto`}>
+      <body className={`bg-bgBlue min-h-screen min-w-[1100px] text-white text-[14px] overflow-x-auto no-scrollbar`}>
         <Main />
         <NextScript />
       </body>

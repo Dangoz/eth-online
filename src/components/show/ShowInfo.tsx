@@ -39,7 +39,7 @@ const ShowInfo: React.FC<ShowInfoProps> = ({ media, handleReview, handleFavorite
           </div>
           <div className="text-[30px]">{media?.tagline}</div>
           <Spacer y={1} />
-          <div className="text-[18px] w-[50%] overflow-y-scroll">{media?.overview}</div>
+          <div className="text-[18px] w-[50%] overflow-y-scroll no-scrollbar">{media?.overview}</div>
         </div>
 
         {/* middle button options */}

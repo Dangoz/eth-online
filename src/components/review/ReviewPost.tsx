@@ -80,7 +80,7 @@ const ReviewPost: React.FC<ReviewPostProps> = ({ review }) => {
         {/* review */}
         <div className="flex flex-col gap-2">
           <div className="text-[18px] font-semibold">{originalReview?.reviewHeadline}</div>
-          <div className="whitespace-pre-line break-words overflow-y-scroll max-h-[180px]">
+          <div className="whitespace-pre-line break-words max-h-[180px] overflow-auto no-scrollbar">
             {originalReview?.reviewContent}
           </div>
         </div>

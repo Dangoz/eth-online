@@ -73,7 +73,7 @@ const SearchResult: React.FC<SearchProps> = ({ searchText }) => {
     <>
       <div
         className={`rounded-[12px] absolute w-[500px] min-h-[100px] bg-bgBlue z-50 overflow-y-auto 
-       flex flex-col p-4 max-h-[70vh] top-[70px]`}
+       flex flex-col p-4 max-h-[70vh] top-[70px] no-scrollbar`}
       >
         {/* shows */}
         <div className="text-titlePurple font-bold">SHOWS</div>

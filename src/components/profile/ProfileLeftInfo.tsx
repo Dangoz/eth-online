@@ -95,7 +95,7 @@ const ProfileLeftInfo: React.FC<ProfileLeftInfoProps> = ({ profile, avatar }) =>
         </div>
 
         {/* bio  */}
-        <div className="overflow-y-auto break-words max-h-36">{profile.bio}</div>
+        <div className="overflow-y-auto break-words max-h-36 no-scrollbar">{profile.bio}</div>
 
         {/* follow stats */}
         <div className="flex w-full gap-10">

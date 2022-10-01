@@ -241,7 +241,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ open, onClose, media, existin
                   src={tmdbImagePrefixPoster + (media.poster_path || media.backdrop_path)}
                   className="w-[80px] h-[120px] object-cover"
                 />
-                <div className="h-[120px] overflow-y-scroll">
+                <div className="h-[120px] overflow-y-scroll no-scrollbar">
                   <div className="flex gap-2 font-bold">
                     {getMediaTitle(media)}
                     <span className="text-slate-500">{`(${getMediaReleaseDate(media)?.slice(0, 4)})`}</span>

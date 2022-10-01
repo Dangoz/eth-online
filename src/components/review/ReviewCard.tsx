@@ -79,7 +79,7 @@ const ReviewCard: React.FC<ReviewcardProps> = ({ review }) => {
         {/* review */}
         <div className="flex flex-col gap-2">
           <div className="text-[18px] font-semibold">{originalReview?.reviewHeadline}</div>
-          <div className="whitespace-pre-line break-words overflow-y-scroll max-h-[680px]">
+          <div className="whitespace-pre-line break-words overflow-y-scroll max-h-[680px] no-scrollbar">
             {originalReview?.reviewContent}
           </div>
         </div>

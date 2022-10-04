@@ -1,5 +1,4 @@
 import { toast } from 'react-toastify'
-import { LockClosedIcon } from '@heroicons/react/24/solid'
 
 export const handleError = (error: Error | any) => {
   const message = error?.data?.message || error?.message
